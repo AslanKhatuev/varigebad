@@ -213,7 +213,6 @@ export default function Header() {
           </button>
         </div>
       </div>
-
       {/* Mobile / Tablet menu */}
       {mobileMenuOpen && (
         <div className="border-t border-[#B8E4F0] bg-white xl:hidden">
@@ -305,6 +304,7 @@ export default function Header() {
           </div>
         </div>
       )}
+      code .
     </header>
   );
 }
