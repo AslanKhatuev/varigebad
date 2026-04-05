@@ -304,7 +304,6 @@ export default function Header() {
           </div>
         </div>
       )}
-      code .
     </header>
   );
 }
