@@ -79,19 +79,16 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         <div className="flex min-h-[80px] items-center gap-4 sm:min-h-[88px] lg:min-h-[96px]">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <div className="flex flex-col leading-none">
-              <span className="text-[22px] font-light uppercase tracking-[0.12em] text-[#1A3A4A] sm:text-[28px] lg:text-[34px] xl:text-[40px]">
-                Varigebad
-              </span>
-              <span className="mt-1 text-[8px] uppercase tracking-[0.28em] text-[#4DAEC8] sm:text-[9px] lg:text-[10px] xl:text-[11px]">
-                Bad & flislegging
-              </span>
-            </div>
+            <img
+              src="/varigebad.jpg"
+              alt="Varige Bad logo"
+              className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24 lg:h-28 lg:w-28"
+            />
           </Link>
 
           {/* Desktop nav */}
