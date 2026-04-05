@@ -298,7 +298,7 @@ export default function Header() {
                 href="/kontakt"
                 className="mt-2 rounded-full bg-[#4DAEC8] px-6 py-4 text-center text-[16px] font-semibold text-white transition hover:bg-[#3A9AB5]"
               >
-                Book gratis befaring
+                Boo gratis befaring
               </Link>
             </nav>
           </div>
