@@ -79,16 +79,16 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E7E2DD] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white/95 backdrop-blur">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         <div className="flex min-h-[80px] items-center gap-4 sm:min-h-[88px] lg:min-h-[96px]">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <div className="flex flex-col leading-none">
-              <span className="text-[22px] font-light uppercase tracking-[0.12em] text-[#2D201C] sm:text-[28px] lg:text-[34px] xl:text-[40px]">
+              <span className="text-[22px] font-light uppercase tracking-[0.12em] text-[#1A3A4A] sm:text-[28px] lg:text-[34px] xl:text-[40px]">
                 Varigebad
               </span>
-              <span className="mt-1 text-[8px] uppercase tracking-[0.28em] text-[#7A6A63] sm:text-[9px] lg:text-[10px] xl:text-[11px]">
+              <span className="mt-1 text-[8px] uppercase tracking-[0.28em] text-[#4DAEC8] sm:text-[9px] lg:text-[10px] xl:text-[11px]">
                 Bad & flislegging
               </span>
             </div>
@@ -114,10 +114,10 @@ export default function Header() {
                         type="button"
                         className={`flex items-center gap-2 rounded-full px-4 py-3 text-[15px] font-medium transition 2xl:px-5 2xl:text-[17px] ${
                           isOpen
-                            ? "border-2 border-blue-600 bg-white text-[#2D201C]"
+                            ? "border-2 border-[#4DAEC8] bg-white text-[#1A3A4A]"
                             : active
-                            ? "bg-[#E7E2DD] text-[#2D201C]"
-                            : "bg-[#E7E2DD] text-[#2D201C] hover:bg-[#DED8D2]"
+                            ? "bg-[#DCF2F9] text-[#1A3A4A]"
+                            : "bg-[#DCF2F9] text-[#1A3A4A] hover:bg-[#C8EAF5]"
                         }`}
                       >
                         <span>{item.label}</span>
@@ -139,13 +139,13 @@ export default function Header() {
                       </button>
 
                       {isOpen && (
-                        <div className="absolute left-0 top-full mt-3 min-w-[260px] rounded-[28px] bg-[#E7E2DD] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.10)] 2xl:min-w-[290px] 2xl:p-5">
+                        <div className="absolute left-0 top-full mt-3 min-w-[260px] rounded-[28px] bg-[#DCF2F9] p-4 shadow-[0_8px_24px_rgba(77,174,200,0.15)] 2xl:min-w-[290px] 2xl:p-5">
                           <div className="flex flex-col">
                             {item.dropdown?.map((subItem) => (
                               <Link
                                 key={subItem.href}
                                 href={subItem.href}
-                                className={`rounded-2xl px-4 py-3 text-[15px] text-[#2D201C] transition hover:bg-white/60 2xl:text-[17px] ${
+                                className={`rounded-2xl px-4 py-3 text-[15px] text-[#1A3A4A] transition hover:bg-white/60 2xl:text-[17px] ${
                                   pathname.startsWith(subItem.href)
                                     ? "bg-white/60"
                                     : ""
@@ -167,8 +167,8 @@ export default function Header() {
                     href={item.href!}
                     className={`text-[15px] font-medium transition 2xl:text-[17px] ${
                       active
-                        ? "text-[#2D201C]"
-                        : "text-[#2D201C] hover:text-[#5A4338]"
+                        ? "text-[#1A3A4A]"
+                        : "text-[#1A3A4A] hover:text-[#4DAEC8]"
                     }`}
                   >
                     {item.label}
@@ -179,7 +179,7 @@ export default function Header() {
 
             <Link
               href="/kontakt"
-              className="rounded-full bg-[#4A2E21] px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-[#3b2419] 2xl:px-8 2xl:py-4 2xl:text-[17px]"
+              className="rounded-full bg-[#4DAEC8] px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-[#3A9AB5] 2xl:px-8 2xl:py-4 2xl:text-[17px]"
             >
               Book gratis befaring
             </Link>
@@ -190,7 +190,7 @@ export default function Header() {
             type="button"
             aria-label={mobileMenuOpen ? "Lukk meny" : "Åpne meny"}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#D8D2CC] text-[#2D201C] transition hover:bg-[#F5F1ED] sm:h-12 sm:w-12 xl:hidden"
+            className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#B8E4F0] text-[#1A3A4A] transition hover:bg-[#DCF2F9] sm:h-12 sm:w-12 xl:hidden"
           >
             <svg
               className="h-5 w-5 sm:h-6 sm:w-6"
@@ -219,7 +219,7 @@ export default function Header() {
 
       {/* Mobile / Tablet menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-[#E7E2DD] bg-white xl:hidden">
+        <div className="border-t border-[#B8E4F0] bg-white xl:hidden">
           <div className="px-4 py-4 sm:px-6">
             <nav className="flex flex-col gap-2">
               {navItems.map((item) => {
@@ -231,7 +231,7 @@ export default function Header() {
                   return (
                     <div
                       key={item.label}
-                      className="rounded-2xl border border-[#E7E2DD] bg-[#F7F3EF]"
+                      className="rounded-2xl border border-[#B8E4F0] bg-[#EDF8FC]"
                     >
                       <button
                         type="button"
@@ -240,7 +240,7 @@ export default function Header() {
                             prev === item.label ? null : item.label
                           )
                         }
-                        className={`flex w-full items-center justify-between px-4 py-4 text-left text-[16px] font-medium text-[#2D201C] ${
+                        className={`flex w-full items-center justify-between px-4 py-4 text-left text-[16px] font-medium text-[#1A3A4A] ${
                           active ? "font-semibold" : ""
                         }`}
                       >
@@ -268,7 +268,7 @@ export default function Header() {
                             <Link
                               key={subItem.href}
                               href={subItem.href}
-                              className={`block rounded-xl px-3 py-3 text-[15px] text-[#2D201C] transition hover:bg-white ${
+                              className={`block rounded-xl px-3 py-3 text-[15px] text-[#1A3A4A] transition hover:bg-white ${
                                 pathname.startsWith(subItem.href)
                                   ? "bg-white"
                                   : ""
@@ -289,8 +289,8 @@ export default function Header() {
                     href={item.href!}
                     className={`rounded-2xl px-4 py-4 text-[16px] font-medium transition ${
                       active
-                        ? "bg-[#F7F3EF] text-[#2D201C]"
-                        : "text-[#2D201C] hover:bg-[#F7F3EF]"
+                        ? "bg-[#EDF8FC] text-[#1A3A4A]"
+                        : "text-[#1A3A4A] hover:bg-[#EDF8FC]"
                     }`}
                   >
                     {item.label}
@@ -300,7 +300,7 @@ export default function Header() {
 
               <Link
                 href="/kontakt"
-                className="mt-2 rounded-full bg-[#4A2E21] px-6 py-4 text-center text-[16px] font-semibold text-white transition hover:bg-[#3b2419]"
+                className="mt-2 rounded-full bg-[#4DAEC8] px-6 py-4 text-center text-[16px] font-semibold text-white transition hover:bg-[#3A9AB5]"
               >
                 Book gratis befaring
               </Link>
