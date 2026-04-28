@@ -30,18 +30,6 @@ const navItems: NavItem[] = [
   },
   { label: "Referanser", href: "/referanser" },
   {
-    label: "Blogg",
-    dropdown: [
-      { label: "Aktuelt", href: "/blogg" },
-      { label: "Bli kjent med", href: "/blogg/bli-kjent-med" },
-      { label: "Bolig", href: "/blogg/bolig" },
-      { label: "Fargevalg og materialer", href: "/blogg/farger-og-materialer" },
-      { label: "Nytt bad", href: "/blogg/nytt-bad" },
-      { label: "Nytt kjøkken", href: "/blogg/nytt-kjokken" },
-      { label: "Tips", href: "/blogg/tips" },
-    ],
-  },
-  {
     label: "Områder",
     dropdown: [
       { label: "Oslo", href: "/omrader/oslo" },
@@ -82,7 +70,6 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
         <div className="flex min-h-[80px] items-center gap-4 sm:min-h-[88px] lg:min-h-[96px]">
-          {/* Logo */}
           <Link href="/" className="shrink-0">
             <img
               src="/varigebad.jpg"
@@ -91,7 +78,6 @@ export default function Header() {
             />
           </Link>
 
-          {/* Desktop nav */}
           <div className="ml-auto hidden items-center gap-4 xl:flex 2xl:gap-6">
             <nav className="flex items-center gap-4 2xl:gap-6">
               {navItems.map((item) => {
@@ -136,21 +122,23 @@ export default function Header() {
                       </button>
 
                       {isOpen && (
-                        <div className="absolute left-0 top-full mt-3 min-w-[260px] rounded-[28px] bg-[#DCF2F9] p-4 shadow-[0_8px_24px_rgba(77,174,200,0.15)] 2xl:min-w-[290px] 2xl:p-5">
-                          <div className="flex flex-col">
-                            {item.dropdown?.map((subItem) => (
-                              <Link
-                                key={subItem.href}
-                                href={subItem.href}
-                                className={`rounded-2xl px-4 py-3 text-[15px] text-[#1A3A4A] transition hover:bg-white/60 2xl:text-[17px] ${
-                                  pathname.startsWith(subItem.href)
-                                    ? "bg-white/60"
-                                    : ""
-                                }`}
-                              >
-                                {subItem.label}
-                              </Link>
-                            ))}
+                        <div className="absolute left-0 top-full min-w-[260px] pt-3 2xl:min-w-[290px]">
+                          <div className="rounded-[28px] bg-[#DCF2F9] p-4 shadow-[0_8px_24px_rgba(77,174,200,0.15)] 2xl:p-5">
+                            <div className="flex flex-col">
+                              {item.dropdown?.map((subItem) => (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  className={`rounded-2xl px-4 py-3 text-[15px] text-[#1A3A4A] transition hover:bg-white/60 2xl:text-[17px] ${
+                                    pathname.startsWith(subItem.href)
+                                      ? "bg-white/60"
+                                      : ""
+                                  }`}
+                                >
+                                  {subItem.label}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -182,7 +170,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile / Tablet button */}
           <button
             type="button"
             aria-label={mobileMenuOpen ? "Lukk meny" : "Åpne meny"}
@@ -213,7 +200,7 @@ export default function Header() {
           </button>
         </div>
       </div>
-      {/* Mobile / Tablet menu */}
+
       {mobileMenuOpen && (
         <div className="border-t border-[#B8E4F0] bg-white xl:hidden">
           <div className="px-4 py-4 sm:px-6">
