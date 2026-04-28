@@ -82,25 +82,30 @@ export default function KontaktPage() {
       <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 xl:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-            {/* Kontaktinfo */}
+
+            {/* Kontaktinfo — avrundede kort */}
             <div>
               <h2 className="mb-8 text-[24px] font-light text-[#1A3A4A] sm:text-[32px]">Kontakt informasjon</h2>
-              <div className="space-y-6">
-                <div>
-                  <p className="mb-1 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Telefon</p>
-                  <a href="tel:+4712345678" className="text-[16px] text-[#1A3A4A] hover:text-[#4DAEC8]">123 45 678</a>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
+                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Telefon</p>
+                  <a href="tel:+4712345678" className="text-[16px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8]">
+                    123 45 678
+                  </a>
                 </div>
-                <div>
-                  <p className="mb-1 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">E-post</p>
-                  <a href="mailto:post@varigebad.no" className="text-[16px] text-[#1A3A4A] hover:text-[#4DAEC8]">post@varigebad.no</a>
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
+                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">E-post</p>
+                  <a href="mailto:post@varigebad.no" className="break-all text-[16px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8]">
+                    post@varigebad.no
+                  </a>
                 </div>
-                <div>
-                  <p className="mb-1 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Adresse</p>
-                  <p className="text-[16px] text-[#1A3A4A]">Eksempelgata 1, 0123 Oslo</p>
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
+                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Adresse</p>
+                  <p className="text-[16px] font-medium text-[#1A3A4A]">Eksempelgata 1, 0123 Oslo</p>
                 </div>
-                <div>
-                  <p className="mb-1 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Åpningstider</p>
-                  <p className="text-[16px] text-[#1A3A4A]">Mandag–fredag: 07:00–17:00</p>
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
+                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Åpningstider</p>
+                  <p className="text-[16px] font-medium text-[#1A3A4A]">Man–fre: 07:00–17:00</p>
                 </div>
               </div>
             </div>
