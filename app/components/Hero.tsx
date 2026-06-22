@@ -266,7 +266,7 @@ export default function Hero() {
               </button>
             </div>
 
-            {/* Høyre: fullskjerm */}
+            {/* Høyre: fullskjerm. */}
             <button
               type="button"
               onClick={toggleFullscreen}
