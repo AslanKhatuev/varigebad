@@ -4,35 +4,107 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 export default function Hero() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [hasVideo, setHasVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
+
     const onCanPlay = () => setHasVideo(true);
     const onError = () => setHasVideo(false);
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onVolumeChange = () => setIsMuted(video.muted);
+
     video.addEventListener("canplay", onCanPlay);
     video.addEventListener("error", onError);
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    video.addEventListener("volumechange", onVolumeChange);
+
     return () => {
       video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("error", onError);
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+      video.removeEventListener("volumechange", onVolumeChange);
     };
   }, []);
 
   const togglePlay = () => {
-    if (!videoRef.current) return;
-    isPlaying ? videoRef.current.pause() : videoRef.current.play();
-    setIsPlaying((prev) => !prev);
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video
+        .play()
+        .catch((err) => console.error("Kunne ikke spille video:", err));
+    } else {
+      video.pause();
+    }
   };
 
   const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !isMuted;
-    setIsMuted((prev) => !prev);
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    if (!video.muted && video.volume === 0) {
+      video.volume = 1;
+    }
+    setIsMuted(video.muted);
+  };
+
+  const toggleFullscreen = () => {
+    const el = wrapRef.current as any;
+    if (!el) return;
+
+    const isFs =
+      document.fullscreenElement ||
+      (document as any).webkitFullscreenElement ||
+      (document as any).msFullscreenElement;
+
+    if (!isFs) {
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      else if (
+        videoRef.current &&
+        (videoRef.current as any).webkitEnterFullscreen
+      ) {
+        (videoRef.current as any).webkitEnterFullscreen();
+      } else {
+        console.warn("Fullskjerm er ikke støttet i denne nettleseren.");
+      }
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if ((document as any).webkitExitFullscreen)
+        (document as any).webkitExitFullscreen();
+      else if ((document as any).msExitFullscreen)
+        (document as any).msExitFullscreen();
+    }
+  };
+
+  // Felles knapp-stil — satt 100% inline, uavhengig av Tailwind
+  const btnStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "6px",
+    height: "40px",
+    minWidth: "40px",
+    padding: "0 12px",
+    borderRadius: "999px",
+    backgroundColor: "rgba(20, 30, 40, 0.85)",
+    color: "#ffffff",
+    border: "1px solid rgba(255,255,255,0.3)",
+    cursor: "pointer",
+    fontSize: "13px",
+    fontWeight: 500,
+    fontFamily: "inherit",
   };
 
   return (
@@ -63,134 +135,153 @@ export default function Hero() {
           </Link>
         </div>
 
+        {/* Video wrapper */}
         <div
-          className="group relative w-full overflow-hidden rounded-2xl bg-[#C8EAF5] shadow-[0_20px_60px_rgba(77,174,200,0.15)]"
-          style={{ aspectRatio: "16/7" }}
+          ref={wrapRef}
+          style={{
+            position: "relative",
+            width: "100%",
+            overflow: "hidden",
+            borderRadius: "16px",
+            backgroundColor: "#C8EAF5",
+            aspectRatio: "16/7",
+            boxShadow: "0 20px 60px rgba(77,174,200,0.15)",
+          }}
         >
-          {/* muted settes via useEffect, ikke som prop — ellers fungerer ikke toggleMute */}
           <video
             ref={videoRef}
-            className="h-full w-full object-cover"
             playsInline
             loop
             autoPlay
+            controls={false}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
           >
             <source src="/varigebad.mp4" type="video/mp4" />
             <source src="/varigebad.MOV" type="video/quicktime" />
           </video>
 
+          {/* Placeholder */}
           {!hasVideo && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#C8EAF5] via-[#9AD5E8] to-[#4DAEC8]">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/30 backdrop-blur-sm">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  aria-hidden="true"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <span className="text-[14px] font-medium text-white/80">
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                background:
+                  "linear-gradient(135deg, #C8EAF5 0%, #9AD5E8 50%, #4DAEC8 100%)",
+              }}
+            >
+              <span
+                style={{
+                  color: "rgba(255,255,255,0.85)",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                }}
+              >
                 Presentasjonsvideo
               </span>
             </div>
           )}
 
-          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-[#1A3A4A] backdrop-blur-sm">
-            ▶ Se prosjektene våre
-          </span>
-
-          <div className="absolute inset-0 flex items-center justify-center bg-[#1A3A4A]/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
-              onClick={togglePlay}
-              aria-label={isPlaying ? "Pause video" : "Spill av video"}
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-[#4DAEC8] shadow-xl transition-transform duration-200 hover:scale-105 hover:bg-white"
-            >
-              {isPlaying ? (
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                </svg>
-              ) : (
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style={{ marginLeft: 3 }}
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-gradient-to-t from-[#1A3A4A]/50 to-transparent px-4 py-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
-              onClick={togglePlay}
-              className="flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition hover:bg-white/35"
-            >
-              {isPlaying ? (
-                <>
+          {/* KONTROLLBAR — helt inline-stilt, garantert synlig, ligger over alt annet */}
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 999,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "16px",
+              pointerEvents: "auto",
+            }}
+          >
+            {/* Venstre: play/pause + lyd */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <button
+                type="button"
+                onClick={togglePlay}
+                aria-label={isPlaying ? "Pause" : "Spill av"}
+                style={btnStyle}
+              >
+                {isPlaying ? (
                   <svg
-                    width="11"
-                    height="11"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
                     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                   </svg>
-                  Pause
-                </>
-              ) : (
-                <>
+                ) : (
                   <svg
-                    width="11"
-                    height="11"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
                     <path d="M8 5v14l11-7z" />
                   </svg>
-                  Spill av
-                </>
-              )}
-            </button>
-            <button
-              onClick={toggleMute}
-              className="flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition hover:bg-white/35"
-            >
-              {isMuted ? (
-                <>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={isMuted ? "Skru på lyd" : "Skru av lyd"}
+                style={btnStyle}
+              >
+                {isMuted ? (
                   <svg
-                    width="11"
-                    height="11"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
                     <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
                   </svg>
-                  Lyd på
-                </>
-              ) : (
-                <>
+                ) : (
                   <svg
-                    width="11"
-                    height="11"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
-                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
                   </svg>
-                  Lyd av
-                </>
-              )}
+                )}
+                <span>{isMuted ? "Lyd av" : "Lyd på"}</span>
+              </button>
+            </div>
+
+            {/* Høyre: fullskjerm */}
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label="Fullskjerm"
+              style={btnStyle}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+              </svg>
+              <span>Fullskjerm</span>
             </button>
           </div>
         </div>
