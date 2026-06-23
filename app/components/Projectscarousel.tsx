@@ -136,8 +136,8 @@ export default function ProjectsCarousel() {
               Utvalgte prosjekter
             </h2>
             <p className="max-w-md text-[14px] leading-relaxed text-[#2A5A70] sm:text-[15px]">
-              Se hvordan vi har hjulpet kunder i Oslo og Akershus med å skape
-              bad de er glade for.
+              Se våre utførte prosjekter i Oslo og Akershus, og hør hva fornøyde
+              kunder har å si om resultatet.
             </p>
           </div>
           <Link
