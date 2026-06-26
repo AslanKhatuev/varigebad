@@ -2,6 +2,7 @@ import Hero from "./components/Hero";
 import ProjectsCarousel from "./components/Projectscarousel";
 import CtaSection from "./components/Ctasection";
 import ServicesOverview from "./components/ServiceOverview";
+import AreasOverview from "./components/AreasOverview";
 
 export default function HomePage() {
   return (
@@ -9,6 +10,7 @@ export default function HomePage() {
       <Hero />
       <ProjectsCarousel />
       <ServicesOverview />
+      <AreasOverview />
       <CtaSection />
     </main>
   );
