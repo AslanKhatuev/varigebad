@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
+import Faq from "@/app/components/Faq";
+import { serviceFaq } from "@/lib/Faqdata";
 
 const services = {
   "totaloppussing-av-bad": {
@@ -388,6 +390,16 @@ export default async function ServicePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* FAQ — spørsmål spesifikt for denne tjenesten, unik id for å unngå
+          kollisjon hvis flere Faq-komponenter brukes på samme side */}
+      {serviceFaq[slug] && (
+        <Faq
+          items={serviceFaq[slug]}
+          heading={`Ofte stilte spørsmål om ${service.title.toLowerCase()}`}
+          scriptId={`faq-jsonld-${slug}`}
+        />
+      )}
     </main>
   );
 }
