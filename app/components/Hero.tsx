@@ -77,8 +77,6 @@ export default function Hero() {
     };
   }, []);
 
-  // Auto-hide-logikk: kontrollene vises ved bevegelse/touch, og forsvinner etter
-  // 2.5s inaktivitet — men kun mens videoen faktisk spiller. Når pauset, holdes de synlige.
   const scheduleHide = useCallback(() => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
     hideTimeoutRef.current = setTimeout(() => {
@@ -92,7 +90,6 @@ export default function Hero() {
   }, [scheduleHide]);
 
   useEffect(() => {
-    // Når videoen pauses, vis kontrollene og avbryt skjul-timeren
     if (!isPlaying) {
       setShowControls(true);
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -191,18 +188,21 @@ export default function Hero() {
 
   return (
     <section
-      aria-label="Introduksjon: Eksperter på bad og flislegging i Oslo"
+      aria-label="Introduksjon: Eksperter på baderomsrenovering og våtrom i Oslo"
       className="px-4 pb-10 pt-10 sm:px-6 sm:pb-16 sm:pt-14 md:pb-20 md:pt-16 lg:px-8 xl:px-10"
     >
       <div className="mx-auto max-w-7xl">
+        {/* Oppdatert: hovedfokus er baderomsrenovering og våtrom,
+            flislegging og rørleggerarbeid nevnes som del av helheten,
+            ikke som hovedbudskap */}
         <h1 className="mb-4 max-w-3xl text-[28px] font-light leading-tight tracking-tight text-[#1A3A4A] sm:mb-5 sm:text-[40px] md:text-[48px] lg:text-[60px]">
-          Eksperter på bad og flislegging i Oslo
+          Eksperter på baderomsrenovering og våtrom i Oslo
         </h1>
 
         <p className="mb-6 max-w-xl text-[15px] leading-relaxed text-[#2A5A70] sm:mb-8 sm:text-[16px] md:text-[18px]">
-          Fra flislegging og rørleggerarbeid til innredning og overflater — vi
-          leverer komplette baderomsprosjekter med høy kvalitet og forutsigbar
-          fremdrift.
+          Vi leverer komplette baderomsrenoveringer med fokus på trygge
+          våtromsløsninger, rørleggerarbeid og innredning — i tillegg til
+          flislegging. Høy kvalitet og forutsigbar fremdrift, hver gang.
         </p>
 
         <div className="mb-8 flex flex-wrap gap-3 sm:mb-10">
@@ -223,7 +223,7 @@ export default function Hero() {
         <div
           ref={wrapRef}
           role="group"
-          aria-label="Presentasjonsvideo av Varige Bads prosjekter"
+          aria-label="Presentasjonsvideo av Varige Bads baderomsprosjekter"
           onMouseMove={handleActivity}
           onMouseEnter={handleActivity}
           onTouchStart={handleActivity}
@@ -240,7 +240,7 @@ export default function Hero() {
             autoPlay
             controls={false}
             onClick={togglePlay}
-            aria-label="Video som viser Varige Bads baderomsprosjekter i Oslo"
+            aria-label="Video som viser Varige Bads baderomsrenoveringer i Oslo"
             className={
               isFullscreen
                 ? "max-h-full max-w-full cursor-pointer object-contain"
@@ -260,7 +260,6 @@ export default function Hero() {
             </div>
           )}
 
-          {/* Kontrollbar — fades inn/ut basert på showControls */}
           <div
             className={`absolute inset-x-0 bottom-0 z-50 bg-gradient-to-t from-black/75 via-black/35 to-transparent transition-opacity duration-300 ${
               showControls ? "opacity-100" : "pointer-events-none opacity-0"

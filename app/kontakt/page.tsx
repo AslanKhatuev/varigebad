@@ -49,15 +49,29 @@ export default function KontaktPage() {
   if (sendt) {
     return (
       <main className="bg-white text-[#1A3A4A]">
-        <section className="flex min-h-[60vh] items-center justify-center px-4">
+        <section className="flex min-h-[60vh] items-center justify-center px-4 sm:px-6">
           <div className="text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#DCF2F9]">
-              <svg className="h-8 w-8 text-[#4DAEC8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#DCF2F9] sm:mb-6 sm:h-16 sm:w-16">
+              <svg
+                className="h-7 w-7 text-[#4DAEC8] sm:h-8 sm:w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
-            <h2 className="mb-3 text-[28px] font-light text-[#1A3A4A]">Takk for din melding!</h2>
-            <p className="text-[16px] text-[#2A5A70]">Vi tar kontakt med deg så snart som mulig.</p>
+            <h2 className="mb-2.5 text-[24px] font-light text-[#1A3A4A] sm:mb-3 sm:text-[28px] md:text-[32px]">
+              Takk for din melding!
+            </h2>
+            <p className="text-[14px] text-[#2A5A70] sm:text-[16px]">
+              Vi tar kontakt med deg så snart som mulig.
+            </p>
           </div>
         </section>
       </main>
@@ -67,60 +81,141 @@ export default function KontaktPage() {
   return (
     <main className="bg-white text-[#1A3A4A]">
       {/* Hero */}
-      <section className="bg-[#EDF8FC] px-4 py-16 sm:px-6 sm:py-24 lg:px-8 xl:px-10">
+      <section className="bg-[#EDF8FC] px-4 py-12 sm:px-6 sm:py-20 md:py-24 lg:px-8 xl:px-10">
         <div className="mx-auto max-w-7xl">
-          <h1 className="mb-4 text-[36px] font-light leading-tight text-[#1A3A4A] sm:text-[52px]">
+          <h1 className="mb-4 text-[28px] font-light leading-tight text-[#1A3A4A] sm:mb-5 sm:text-[40px] md:text-[46px] lg:text-[52px]">
             Kontakt oss
           </h1>
-          <p className="max-w-xl text-[17px] leading-relaxed text-[#2A5A70]">
+          <p className="max-w-xl text-[15px] leading-relaxed text-[#2A5A70] sm:text-[17px]">
             Book en gratis og uforpliktende befaring, eller send oss en melding.
             Vi svarer raskt!
           </p>
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 xl:px-10">
+      <section className="px-4 py-10 sm:px-6 sm:py-16 md:py-20 lg:px-8 xl:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
             {/* Kontaktinfo — avrundede kort */}
             <div>
-              <h2 className="mb-8 text-[24px] font-light text-[#1A3A4A] sm:text-[32px]">Kontakt informasjon</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
-                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Telefon</p>
-                  <a href="tel:+4712345678" className="text-[16px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8]">
-                    123 45 678
+              <h2 className="mb-6 text-[22px] font-light text-[#1A3A4A] sm:mb-8 sm:text-[28px] md:text-[32px]">
+                Kontakt informasjon
+              </h2>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-4 sm:p-5">
+                  <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#4DAEC8] sm:mb-2 sm:text-[13px]">
+                    Telefon
+                  </p>
+                  <a
+                    href="tel:+4795898458"
+                    className="text-[15px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8] sm:text-[16px]"
+                  >
+                    958 98 458
                   </a>
                 </div>
-                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
-                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">E-post</p>
-                  <a href="mailto:post@varigebad.no" className="break-all text-[16px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8]">
-                    post@varigebad.no
+
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-4 sm:p-5">
+                  <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#4DAEC8] sm:mb-2 sm:text-[13px]">
+                    E-post
+                  </p>
+                  <a
+                    href="mailto:hawraz@varigebad.no"
+                    className="break-all text-[15px] font-medium text-[#1A3A4A] hover:text-[#4DAEC8] sm:text-[16px]"
+                  >
+                    hawraz@varigebad.no
                   </a>
                 </div>
-                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
-                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Adresse</p>
-                  <p className="text-[16px] font-medium text-[#1A3A4A]">Eksempelgata 1, 0123 Oslo</p>
+
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-4 sm:p-5">
+                  <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#4DAEC8] sm:mb-2 sm:text-[13px]">
+                    Adresse
+                  </p>
+                  <p className="text-[15px] font-medium text-[#1A3A4A] sm:text-[16px]">
+                    Lunden 35, 0598 Oslo
+                  </p>
                 </div>
-                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5">
-                  <p className="mb-2 text-[13px] font-semibold uppercase tracking-widest text-[#4DAEC8]">Åpningstider</p>
-                  <p className="text-[16px] font-medium text-[#1A3A4A]">Man–fre: 07:00–17:00</p>
+
+                <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-4 sm:p-5">
+                  <p className="mb-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#4DAEC8] sm:mb-2 sm:text-[13px]">
+                    Åpningstider
+                  </p>
+                  <p className="text-[15px] font-medium text-[#1A3A4A] sm:text-[16px]">
+                    Man–fre: 09:00–17:00
+                    <br />
+                    Lør–søn: Stengt
+                  </p>
+                </div>
+
+                {/* Sosiale medier */}
+                <div className="col-span-1 rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-4 sm:col-span-2 sm:p-5">
+                  <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-widest text-[#4DAEC8] sm:mb-3 sm:text-[13px]">
+                    Følg oss
+                  </p>
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <a
+                      href="https://www.instagram.com/varigebad/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Følg Varige Bad på Instagram"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-[#B8E4F0] text-[#1A3A4A] transition hover:border-[#4DAEC8] hover:text-[#4DAEC8] sm:h-10 sm:w-10"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        aria-hidden="true"
+                        className="sm:h-5 sm:w-5"
+                      >
+                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle
+                          cx="17.5"
+                          cy="6.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="https://www.tiktok.com/@varigebad"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Følg Varige Bad på TikTok"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-[#B8E4F0] text-[#1A3A4A] transition hover:border-[#4DAEC8] hover:text-[#4DAEC8] sm:h-10 sm:w-10"
+                    >
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        className="sm:h-[17px] sm:w-[17px]"
+                      >
+                        <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.31 1.38V7.3s-1.88.09-3.25-1.48z" />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Kontaktskjema */}
-            <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-8">
-              <h2 className="mb-2 text-[22px] font-light text-[#1A3A4A]">Send oss en melding</h2>
-              <p className="mb-6 text-[12px] text-[#9CC8D8]">
-                Felt merket med <span className="text-red-500">*</span> er påkrevd.
+            <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5 sm:p-6 md:p-7 lg:p-8">
+              <h2 className="mb-2 text-[20px] font-light text-[#1A3A4A] sm:text-[22px] md:text-[24px]">
+                Send oss en melding
+              </h2>
+              <p className="mb-5 text-[11px] text-[#9CC8D8] sm:mb-6 sm:text-[12px]">
+                Felt merket med <span className="text-red-500">*</span> er
+                påkrevd.
               </p>
               <div className="space-y-4">
-
                 {/* Navn */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Navn <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -129,16 +224,22 @@ export default function KontaktPage() {
                     value={data.navn}
                     onChange={oppdater}
                     placeholder="Ditt navn"
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.navn ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.navn
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   />
-                  {feil.navn && <p className="mt-1 text-[12px] text-red-500">{feil.navn}</p>}
+                  {feil.navn && (
+                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
+                      {feil.navn}
+                    </p>
+                  )}
                 </div>
 
                 {/* E-post */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     E-post <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -147,16 +248,22 @@ export default function KontaktPage() {
                     value={data.epost}
                     onChange={oppdater}
                     placeholder="din@epost.no"
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.epost ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.epost
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   />
-                  {feil.epost && <p className="mt-1 text-[12px] text-red-500">{feil.epost}</p>}
+                  {feil.epost && (
+                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
+                      {feil.epost}
+                    </p>
+                  )}
                 </div>
 
                 {/* Telefon */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Telefon <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -165,16 +272,22 @@ export default function KontaktPage() {
                     value={data.telefon}
                     onChange={oppdater}
                     placeholder="123 45 678"
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.telefon ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.telefon
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   />
-                  {feil.telefon && <p className="mt-1 text-[12px] text-red-500">{feil.telefon}</p>}
+                  {feil.telefon && (
+                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
+                      {feil.telefon}
+                    </p>
+                  )}
                 </div>
 
                 {/* Adresse */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Adresse <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -183,39 +296,57 @@ export default function KontaktPage() {
                     value={data.adresse}
                     onChange={oppdater}
                     placeholder="Gateadresse, postnummer og sted"
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.adresse ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.adresse
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   />
-                  {feil.adresse && <p className="mt-1 text-[12px] text-red-500">{feil.adresse}</p>}
+                  {feil.adresse && (
+                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
+                      {feil.adresse}
+                    </p>
+                  )}
                 </div>
 
                 {/* Tjeneste */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Hva gjelder saken? <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="tjeneste"
                     value={data.tjeneste}
                     onChange={oppdater}
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.tjeneste ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.tjeneste
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   >
-                    <option value="" disabled>Velg tjeneste</option>
-                    <option value="totaloppussing">Totaloppussing av bad</option>
+                    <option value="" disabled>
+                      Velg tjeneste
+                    </option>
+                    <option value="totaloppussing">
+                      Totaloppussing av bad
+                    </option>
                     <option value="flislegging">Flislegging</option>
                     <option value="rorleggerarbeid">Rørleggerarbeid</option>
-                    <option value="innvendig-oppussing">Innvendig oppussing</option>
+                    <option value="innvendig-oppussing">
+                      Innvendig oppussing
+                    </option>
                     <option value="annet">Annet</option>
                   </select>
-                  {feil.tjeneste && <p className="mt-1 text-[12px] text-red-500">{feil.tjeneste}</p>}
+                  {feil.tjeneste && (
+                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
+                      {feil.tjeneste}
+                    </p>
+                  )}
                 </div>
 
                 {/* Melding med teller */}
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-medium text-[#2A5A70]">
+                  <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Melding <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -224,17 +355,29 @@ export default function KontaktPage() {
                     onChange={oppdater}
                     rows={4}
                     placeholder="Beskriv prosjektet ditt kort..."
-                    className={`w-full rounded-xl border bg-white px-4 py-3 text-[15px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 ${
-                      feil.melding || meldingForLang ? "border-red-400" : "border-[#B8E4F0] focus:border-[#4DAEC8]"
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
+                      feil.melding || meldingForLang
+                        ? "border-red-400"
+                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
                     }`}
                   />
                   <div className="mt-1 flex items-center justify-between">
                     <span>
-                      {feil.melding && <p className="text-[12px] text-red-500">{feil.melding}</p>}
+                      {feil.melding && (
+                        <p className="text-[11px] text-red-500 sm:text-[12px]">
+                          {feil.melding}
+                        </p>
+                      )}
                     </span>
-                    <span className={`text-[12px] font-medium tabular-nums ${
-                      meldingForLang ? "text-red-500" : meldingGyldig ? "text-green-500" : "text-red-400"
-                    }`}>
+                    <span
+                      className={`text-[11px] font-medium tabular-nums sm:text-[12px] ${
+                        meldingForLang
+                          ? "text-red-500"
+                          : meldingGyldig
+                          ? "text-green-500"
+                          : "text-red-400"
+                      }`}
+                    >
                       {meldingLengde} / 256
                     </span>
                   </div>
@@ -244,7 +387,7 @@ export default function KontaktPage() {
                 <button
                   type="button"
                   onClick={sendSkjema}
-                  className="w-full rounded-full bg-[#4DAEC8] py-4 text-[15px] font-semibold text-white transition hover:bg-[#3A9AB5]"
+                  className="w-full rounded-full bg-[#4DAEC8] py-3.5 text-[14px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:py-4 sm:text-[15px]"
                 >
                   Send melding
                 </button>
