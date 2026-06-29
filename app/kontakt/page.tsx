@@ -1,83 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import {
-  validerKontaktSkjema,
-  skjemaErGyldig,
-  type KontaktFormData,
-  type KontaktFormFeil,
-} from "@/lib/validering/kontaktSkjema";
-
-const tomtSkjema: KontaktFormData = {
-  navn: "",
-  epost: "",
-  telefon: "",
-  adresse: "",
-  tjeneste: "",
-  melding: "",
-};
-
 export default function KontaktPage() {
-  const [data, setData] = useState<KontaktFormData>(tomtSkjema);
-  const [feil, setFeil] = useState<KontaktFormFeil>({});
-  const [sendt, setSendt] = useState(false);
-
-  const oppdater = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
-    if (feil[name as keyof KontaktFormFeil]) {
-      setFeil((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const sendSkjema = () => {
-    const nyeFeil = validerKontaktSkjema(data);
-    setFeil(nyeFeil);
-    if (skjemaErGyldig(nyeFeil)) {
-      setSendt(true);
-    }
-  };
-
-  const meldingLengde = data.melding.length;
-  const meldingGyldig = meldingLengde >= 10;
-  const meldingForLang = meldingLengde > 256;
-
-  if (sendt) {
-    return (
-      <main className="bg-white text-[#1A3A4A]">
-        <section className="flex min-h-[60vh] items-center justify-center px-4 sm:px-6">
-          <div className="text-center">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#DCF2F9] sm:mb-6 sm:h-16 sm:w-16">
-              <svg
-                className="h-7 w-7 text-[#4DAEC8] sm:h-8 sm:w-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <h2 className="mb-2.5 text-[24px] font-light text-[#1A3A4A] sm:mb-3 sm:text-[28px] md:text-[32px]">
-              Takk for din melding!
-            </h2>
-            <p className="text-[14px] text-[#2A5A70] sm:text-[16px]">
-              Vi tar kontakt med deg så snart som mulig.
-            </p>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="bg-white text-[#1A3A4A]">
       {/* Hero */}
@@ -87,8 +10,8 @@ export default function KontaktPage() {
             Kontakt oss
           </h1>
           <p className="max-w-xl text-[15px] leading-relaxed text-[#2A5A70] sm:text-[17px]">
-            Book en gratis og uforpliktende befaring, eller send oss en melding.
-            Vi svarer raskt!
+            Book en gratis og uforpliktende befaring, eller ta kontakt direkte
+            på telefon eller e-post. Vi svarer raskt!
           </p>
         </div>
       </section>
@@ -203,8 +126,35 @@ export default function KontaktPage() {
               </div>
             </div>
 
-            {/* Kontaktskjema */}
-            <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5 sm:p-6 md:p-7 lg:p-8">
+            {/* Kontaktskjema — vises, men er deaktivert (under utvikling) */}
+            <div className="relative rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5 sm:p-6 md:p-7 lg:p-8">
+              {/* Info-banner om at skjemaet er stengt */}
+              <div className="mb-5 rounded-xl border border-[#B8E4F0] bg-white px-4 py-3.5 sm:mb-6 sm:px-5 sm:py-4">
+                <p className="text-[13px] leading-relaxed text-[#2A5A70] sm:text-[14px]">
+                  <span aria-hidden="true">🔒</span> Kontaktskjemaet er
+                  midlertidig stengt og under behandling. Ved spørsmål, send en
+                  e-post til{" "}
+                  <a
+                    href="mailto:hawraz@varigebad.no"
+                    className="font-medium text-[#4DAEC8] hover:underline"
+                  >
+                    hawraz@varigebad.no
+                  </a>
+                  .
+                </p>
+                <p className="mt-2 text-[12px] text-[#9CC8D8] sm:text-[13px]">
+                  Signert av{" "}
+                  <a
+                    href="https://www.skylineinterface.no"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-[#9CC8D8] underline transition hover:text-[#4DAEC8]"
+                  >
+                    SkyLine Interface
+                  </a>
+                </p>
+              </div>
+
               <h2 className="mb-2 text-[20px] font-light text-[#1A3A4A] sm:text-[22px] md:text-[24px]">
                 Send oss en melding
               </h2>
@@ -212,8 +162,10 @@ export default function KontaktPage() {
                 Felt merket med <span className="text-red-500">*</span> er
                 påkrevd.
               </p>
-              <div className="space-y-4">
-                {/* Navn */}
+
+              {/* fieldset disabled deaktiverer ALLE felt og knappen inni,
+                  samtidig som de fortsatt vises normalt med riktig styling. */}
+              <fieldset disabled className="space-y-4 opacity-60">
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Navn <span className="text-red-500">*</span>
@@ -221,23 +173,11 @@ export default function KontaktPage() {
                   <input
                     type="text"
                     name="navn"
-                    value={data.navn}
-                    onChange={oppdater}
                     placeholder="Ditt navn"
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.navn
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  {feil.navn && (
-                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
-                      {feil.navn}
-                    </p>
-                  )}
                 </div>
 
-                {/* E-post */}
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     E-post <span className="text-red-500">*</span>
@@ -245,23 +185,11 @@ export default function KontaktPage() {
                   <input
                     type="email"
                     name="epost"
-                    value={data.epost}
-                    onChange={oppdater}
                     placeholder="din@epost.no"
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.epost
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  {feil.epost && (
-                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
-                      {feil.epost}
-                    </p>
-                  )}
                 </div>
 
-                {/* Telefon */}
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Telefon <span className="text-red-500">*</span>
@@ -269,23 +197,11 @@ export default function KontaktPage() {
                   <input
                     type="tel"
                     name="telefon"
-                    value={data.telefon}
-                    onChange={oppdater}
                     placeholder="123 45 678"
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.telefon
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  {feil.telefon && (
-                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
-                      {feil.telefon}
-                    </p>
-                  )}
                 </div>
 
-                {/* Adresse */}
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Adresse <span className="text-red-500">*</span>
@@ -293,36 +209,19 @@ export default function KontaktPage() {
                   <input
                     type="text"
                     name="adresse"
-                    value={data.adresse}
-                    onChange={oppdater}
                     placeholder="Gateadresse, postnummer og sted"
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.adresse
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  {feil.adresse && (
-                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
-                      {feil.adresse}
-                    </p>
-                  )}
                 </div>
 
-                {/* Tjeneste */}
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Hva gjelder saken? <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="tjeneste"
-                    value={data.tjeneste}
-                    onChange={oppdater}
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.tjeneste
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    defaultValue=""
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none sm:px-4 sm:py-3 sm:text-[15px]"
                   >
                     <option value="" disabled>
                       Velg tjeneste
@@ -337,61 +236,32 @@ export default function KontaktPage() {
                     </option>
                     <option value="annet">Annet</option>
                   </select>
-                  {feil.tjeneste && (
-                    <p className="mt-1 text-[11px] text-red-500 sm:text-[12px]">
-                      {feil.tjeneste}
-                    </p>
-                  )}
                 </div>
 
-                {/* Melding med teller */}
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Melding <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     name="melding"
-                    value={data.melding}
-                    onChange={oppdater}
                     rows={4}
                     placeholder="Beskriv prosjektet ditt kort..."
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:ring-2 focus:ring-[#4DAEC8]/20 sm:px-4 sm:py-3 sm:text-[15px] ${
-                      feil.melding || meldingForLang
-                        ? "border-red-400"
-                        : "border-[#B8E4F0] focus:border-[#4DAEC8]"
-                    }`}
+                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  <div className="mt-1 flex items-center justify-between">
-                    <span>
-                      {feil.melding && (
-                        <p className="text-[11px] text-red-500 sm:text-[12px]">
-                          {feil.melding}
-                        </p>
-                      )}
-                    </span>
-                    <span
-                      className={`text-[11px] font-medium tabular-nums sm:text-[12px] ${
-                        meldingForLang
-                          ? "text-red-500"
-                          : meldingGyldig
-                          ? "text-green-500"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {meldingLengde} / 256
+                  <div className="mt-1 flex items-center justify-end">
+                    <span className="text-[11px] font-medium tabular-nums text-[#9CC8D8] sm:text-[12px]">
+                      0 / 256
                     </span>
                   </div>
                 </div>
 
-                {/* Send-knapp */}
                 <button
                   type="button"
-                  onClick={sendSkjema}
-                  className="w-full rounded-full bg-[#4DAEC8] py-3.5 text-[14px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:py-4 sm:text-[15px]"
+                  className="w-full cursor-not-allowed rounded-full bg-[#4DAEC8] py-3.5 text-[14px] font-semibold text-white sm:py-4 sm:text-[15px]"
                 >
                   Send melding
                 </button>
-              </div>
+              </fieldset>
             </div>
           </div>
         </div>
