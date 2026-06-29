@@ -38,8 +38,8 @@ const navItems: NavItem[] = [
       { label: "Oslo og omegn", href: "/omrader/oslo-og-omegn" },
     ],
   },
-  { label: "Kontakt oss", href: "/kontakt" },
   { label: "Om oss", href: "/om-oss" },
+  { label: "Kontakt oss", href: "/kontakt" },
 ];
 
 export default function Header() {
