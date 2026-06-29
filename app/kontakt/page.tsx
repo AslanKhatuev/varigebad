@@ -132,7 +132,7 @@ export default function KontaktPage() {
               <div className="mb-5 rounded-xl border border-[#B8E4F0] bg-white px-4 py-3.5 sm:mb-6 sm:px-5 sm:py-4">
                 <p className="text-[13px] leading-relaxed text-[#2A5A70] sm:text-[14px]">
                   <span aria-hidden="true">🔒</span> Kontaktskjemaet er
-                  midlertidig stengt og under behandling. Ved spørsmål, send en
+                  midlertidig stengt og under utvikling. Ved spørsmål, send en
                   e-post til{" "}
                   <a
                     href="mailto:hawraz@varigebad.no"
