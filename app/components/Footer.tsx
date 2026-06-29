@@ -3,7 +3,7 @@ import Script from "next/script";
 
 // Bytt ut med de faktiske profil-URL-ene
 const SOCIAL_LINKS = {
-  instagram: "https://www.instagram.com/varigebad/",
+  instagram: "https://www.instagram.com/varigebad",
   tiktok: "https://www.tiktok.com/@varigebad",
 };
 
@@ -13,7 +13,7 @@ export default function Footer() {
     "@type": "Organization",
     name: "Varige Bad AS",
     url: "https://www.varigebad.no",
-    logo: "https://www.varigebad.no/logo.png",
+    logo: "https://www.varigebad.no/varigebad.jpg",
     description:
       "Eksperter på baderomsrenovering og våtrom, med rørleggerarbeid og flislegging som del av helheten, i Oslo og Akershus.",
     taxID: "934 649 273",
@@ -175,7 +175,16 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[13px] text-white/30">
-            © {new Date().getFullYear()} Varige Bad AS — Baderomsrenovering og
+            Utviklet av{" "}
+            <a
+              href="https://www.skylineinterface.no"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-white/40 transition hover:text-[#4DAEC8]"
+            >
+              SkyLine Interface
+            </a>{" "}
+            — © {new Date().getFullYear()} Varige Bad AS — Baderomsrenovering og
             våtrom i Oslo og Akershus
           </p>
 

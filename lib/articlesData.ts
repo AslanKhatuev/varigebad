@@ -32,7 +32,7 @@ export const articles: Article[] = [
     title: "Montering av dusjkabinett – slik gjør fagfolk det",
     excerpt:
       "Når vi monterer et dusjkabinett, følger vi faste rutiner for å sikre riktig oppbygging, tett tilkobling og korrekt fall på avløpet.",
-    image: "/dusjkabinett-montering.jpg",
+    image: "/dusjkabin.jpg",
     imageAlt: "Fagperson monterer dusjkabinett med verktøybelte, Varige Bad",
     publishedDate: "2026-01-15",
     metaTitle: "Montering av dusjkabinett – slik gjør fagfolk det | Varige Bad",
@@ -220,7 +220,7 @@ export const articles: Article[] = [
     title: "Hva koster det å pusse opp bad i 2026? [Oppdatert guide]",
     excerpt:
       "Lurer du på hva det koster å pusse opp badet? Vi gir deg en oversikt over priser, hva som påvirker kostnaden, og risikoene ved å gjøre det selv.",
-    image: "/prisguide-bad-2026.jpg",
+    image: "/pussebad.jpg",
     imageAlt: "Nyoppusset baderom med fliser og dusjsone, Varige Bad",
     publishedDate: "2026-01-20",
     metaTitle:
@@ -382,7 +382,7 @@ export const articles: Article[] = [
     title: "Derfor skyldes de fleste vannskader feil i membranen",
     excerpt:
       "Det er membranen som i stor grad bestemmer om baderommet ditt holder tett. Vi forklarer hvorfor dette er den mest kritiske komponenten på badet.",
-    image: "/membran-vatrom.jpg",
+    image: "/vannskade.jpg",
     imageAlt: "Membranlegging på badegulv før flislegging, Varige Bad",
     publishedDate: "2026-02-02",
     metaTitle:
@@ -488,7 +488,7 @@ export const articles: Article[] = [
       "Hvorfor du bør leie inn profesjonell rørlegger til ditt boligprosjekt",
     excerpt:
       "Rørleggerarbeid kan være komplekst, og små feil kan få store konsekvenser — både for funksjonalitet og forsikring. Se hvorfor fagfolk lønner seg.",
-    image: "/profesjonell-rorlegger.jpg",
+    image: "/rørlegger1.jpg",
     imageAlt: "Rørlegger som monterer rør og koblinger, Varige Bad",
     publishedDate: "2026-02-10",
     metaTitle:

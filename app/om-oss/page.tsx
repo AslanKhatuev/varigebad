@@ -259,37 +259,6 @@ export default function OmOssPage() {
           </div>
         </div>
       </section>
-
-      {/* Team */}
-      <section className="px-4 py-12 sm:px-6 sm:py-20 lg:px-8 xl:px-10">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="mb-7 text-[22px] font-light text-[#1A3A4A] sm:mb-10 sm:text-[28px] md:text-[32px]">
-            Møt teamet
-          </h2>
-          <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-            {[
-              { name: "Navn Navnesen", role: "Daglig leder" },
-              { name: "Navn Navnesen", role: "Flislegger" },
-              { name: "Navn Navnesen", role: "Rørlegger" },
-              { name: "Navn Navnesen", role: "Prosjektleder" },
-            ].map((person, i) => (
-              <div key={i} className="text-center">
-                <div
-                  className="mx-auto mb-3 w-full overflow-hidden rounded-2xl bg-[#C8EAF5] sm:mb-4"
-                  style={{ aspectRatio: "1/1" }}
-                />
-                <h3 className="text-[14px] font-medium text-[#1A3A4A] sm:text-[16px]">
-                  {person.name}
-                </h3>
-                <p className="text-[13px] text-[#4DAEC8] sm:text-[14px]">
-                  {person.role}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA — gjenbrukbar komponent, samme på alle sider */}
       <CtaSection />
     </main>
