@@ -1,6 +1,6 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
-import { articles } from "@/lib/articlesdata";
+import { articles } from "@/lib/articlesData";
 
 const BASE_URL = "https://www.varigebad.no";
 

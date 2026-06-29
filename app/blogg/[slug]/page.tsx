@@ -8,7 +8,7 @@ import {
   articles,
   estimateReadingMinutes,
   type ContentBlock,
-} from "@/lib/articlesdata";
+} from "@/lib/articlesData";
 import CtaSection from "@/app/components/Ctasection";
 
 type Props = {

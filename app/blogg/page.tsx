@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { articles, estimateReadingMinutes } from "@/lib/articlesdata";
+import { articles, estimateReadingMinutes } from "@/lib/articlesData";
 
 export const metadata: Metadata = {
   title: "Blogg — guider om bad og våtrom i Oslo og Akershus | Varige Bad",
