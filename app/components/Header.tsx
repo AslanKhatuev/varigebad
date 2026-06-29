@@ -70,11 +70,6 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white">
       <div className="w-full px-3 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
-        {/*
-          Header-høyde skalerer i fire steg (mobil → sm → md → lg+),
-          slik at logoen kan vokse jevnt uten å gjøre headeren
-          uforholdsmessig stor på små skjermer.
-        */}
         <div className="relative flex min-h-[64px] items-center gap-3 overflow-visible sm:min-h-[80px] sm:gap-4 md:min-h-[88px] lg:min-h-[96px]">
           <Link href="/" className="z-10 shrink-0">
             <img
@@ -84,11 +79,6 @@ export default function Header() {
             />
           </Link>
 
-          {/*
-            Desktop-navigasjon fra lg: (1024px) i stedet for xl: (1280px) —
-            gir korrekt visning på vanlige laptoper og liggende tablets,
-            ikke bare på store skjermer.
-          */}
           <div className="ml-auto hidden items-center gap-3 lg:flex lg:gap-4 2xl:gap-6">
             <nav className="flex items-center gap-2 lg:gap-3 2xl:gap-6">
               {navItems.map((item) => {
@@ -173,15 +163,16 @@ export default function Header() {
               })}
             </nav>
 
+            {/* "Book gratis befaring" matcher nå samme padding/høyde som
+                Tjenester- og Områder-knappene, i stedet for å være større. */}
             <Link
               href="/kontakt"
-              className="whitespace-nowrap rounded-full bg-[#4DAEC8] px-4 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#3A9AB5] lg:px-6 lg:py-3 lg:text-[14px] 2xl:px-8 2xl:py-4 2xl:text-[17px]"
+              className="whitespace-nowrap rounded-full bg-[#4DAEC8] px-3 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#3A9AB5] lg:px-4 lg:py-3 lg:text-[14px] 2xl:px-5 2xl:text-[17px]"
             >
               Book gratis befaring
             </Link>
           </div>
 
-          {/* Hamburger-knapp vises nå under lg: i stedet for under xl: */}
           <button
             type="button"
             aria-label={mobileMenuOpen ? "Lukk meny" : "Åpne meny"}
@@ -213,7 +204,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobilmeny — vises nå under lg: i stedet for under xl: */}
       {mobileMenuOpen && (
         <div className="max-h-[calc(100vh-64px)] overflow-y-auto border-t border-[#B8E4F0] bg-white sm:max-h-[calc(100vh-80px)] lg:hidden">
           <div className="px-3 py-4 sm:px-6 sm:py-5">
