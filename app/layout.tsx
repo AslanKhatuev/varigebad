@@ -6,59 +6,136 @@ import ScrollToTopButton from "./components/Scrolltotopbutton";
 
 const BASE_URL = "https://www.varigebad.no";
 
+// Alle 15 bydeler i Oslo
+const OSLO_BYDELER = [
+  "Vestre Aker",
+  "Ullern",
+  "Frogner",
+  "St. Hanshaugen",
+  "Sagene",
+  "Grünerløkka",
+  "Gamle Oslo",
+  "Nordstrand",
+  "Søndre Nordstrand",
+  "Østensjø",
+  "Alna",
+  "Grorud",
+  "Stovner",
+  "Bjerke",
+  "Nordre Aker",
+];
+
+// Alle kommuner i Akershus
+const AKERSHUS_KOMMUNER = [
+  "Bærum",
+  "Asker",
+  "Lillestrøm",
+  "Lørenskog",
+  "Ski",
+  "Ås",
+  "Nesodden",
+  "Nordre Follo",
+  "Rælingen",
+  "Enebakk",
+  "Nittedal",
+  "Gjerdrum",
+  "Ullensaker",
+  "Nannestad",
+  "Eidsvoll",
+  "Hurdal",
+  "Aurskog-Høland",
+];
+
+// Kjente tettsteder
+const TETTSTEDER = [
+  "Sandvika",
+  "Jessheim",
+  "Kolbotn",
+  "Nesoddtangen",
+  "Bekkestua",
+  "Lysaker",
+  "Fornebu",
+  "Vinderen",
+  "Røa",
+  "Majorstuen",
+  "Torshov",
+  "Holmenkollen",
+  "Jar",
+  "Stabekk",
+];
+
+// Genererer nøkkelord for en liste med steder og et søkeord
+function generer(steder: string[], soekeord: string): string[] {
+  return steder.map((sted) => `${soekeord} ${sted}`);
+}
+
 export const metadata: Metadata = {
-  // SEO: title og description er de to viktigste metadata-feltene.
-  // title vises i Google-søkeresultater og nettleserfanen.
-  // description vises som ingress under lenken i søkeresultater (ca. 150-160 tegn).
   title: {
-    // default: vises på sider som ikke setter sin egen <title> (f.eks. 404)
     default: "Baderomsrenovering og våtrom i Oslo og Akershus | Varige Bad",
-    // template: brukes av undersider som setter title via generateMetadata —
-    // "%s" erstattes med sidens egen tittel, og " | Varige Bad" legges til automatisk.
     template: "%s | Varige Bad",
   },
   description:
     "Varige Bad AS leverer komplette baderomsrenoveringer og våtromsløsninger i Oslo og Akershus. Vi tilbyr totaloppussing av bad, rørleggerarbeid og flislegging — med høy kvalitet og forutsigbar fremdrift. Book gratis befaring i dag.",
 
-  // SEO: keywords har begrenset direkte rangeringsverdi i Google, men
-  // bidrar til konsistens og kan brukes av andre søkemotorer (Bing, DuckDuckGo).
   keywords: [
+    // ── Generelle hovedsøkeord ───────────────────────────────────────────────
     "baderomsrenovering Oslo",
     "baderomsrenovering Akershus",
-    "totaloppussing bad Oslo",
+    "totalrenovering bad Oslo",
+    "totalrenovering bad Akershus",
     "renovere våtrom Oslo",
     "våtromsentreprenør Oslo",
     "rørlegger Oslo",
     "flislegging Oslo",
-    "baderomsrenovering Bærum",
-    "baderomsrenovering Frogner",
-    "baderomsrenovering Vestre Aker",
     "membran våtrom",
     "BVN TEK17 baderom",
     "gratis befaring bad Oslo",
     "Varige Bad",
-    "våtromløsninger Oslo",
-    "våtromsløsninger Akershus",
-    "totalrenovering bad Oslo",
-    "totalrenovering bad Akershus",
-    "Oslo baderomsentreprenør",
-    "Akershus baderomsentreprenør",
-    "våtromløsninger Bærum",
-    "våtromsløsninger Asker",
-    "totalrenovering bad Sandvika",
-    "totalrenovering bad Vinderen",
-    "Bærum baderomsentreprenør",
-    "Asker baderomsentreprenør",
+    "baderomsentreprenør Oslo",
+    "baderomsentreprenør Akershus",
+    "totaloppussing bad Oslo",
+
+    // ── Oslo bydeler × baderomsrenovering ────────────────────────────────────
+    ...generer(OSLO_BYDELER, "baderomsrenovering"),
+
+    // ── Oslo bydeler × totalrenovering av bad ────────────────────────────────
+    ...generer(OSLO_BYDELER, "totalrenovering av bad"),
+
+    // ── Oslo bydeler × våtrom ────────────────────────────────────────────────
+    ...generer(OSLO_BYDELER, "våtrom"),
+
+    // ── Oslo bydeler × flislegging ───────────────────────────────────────────
+    ...generer(OSLO_BYDELER, "flislegging"),
+
+    // ── Oslo bydeler × rørlegger ─────────────────────────────────────────────
+    ...generer(OSLO_BYDELER, "rørlegger"),
+
+    // ── Akershus kommuner × baderomsrenovering ───────────────────────────────
+    ...generer(AKERSHUS_KOMMUNER, "baderomsrenovering"),
+
+    // ── Akershus kommuner × totalrenovering av bad ───────────────────────────
+    ...generer(AKERSHUS_KOMMUNER, "totalrenovering av bad"),
+
+    // ── Akershus kommuner × våtrom ───────────────────────────────────────────
+    ...generer(AKERSHUS_KOMMUNER, "våtrom"),
+
+    // ── Akershus kommuner × flislegging ─────────────────────────────────────
+    ...generer(AKERSHUS_KOMMUNER, "flislegging"),
+
+    // ── Akershus kommuner × rørlegger ────────────────────────────────────────
+    ...generer(AKERSHUS_KOMMUNER, "rørlegger"),
+
+    // ── Tettsteder × baderomsrenovering ─────────────────────────────────────
+    ...generer(TETTSTEDER, "baderomsrenovering"),
+
+    // ── Tettsteder × totalrenovering av bad ──────────────────────────────────
+    ...generer(TETTSTEDER, "totalrenovering av bad"),
   ],
 
-  // SEO: canonical URL for forsiden — forteller Google hva som er
-  // "riktig" versjon av siden og unngår duplicate content-problemer.
   alternates: {
     canonical: BASE_URL,
   },
 
-  // Open Graph: brukes av Facebook, LinkedIn og andre sosiale plattformer
-  // når siden deles — påvirker utseendet av delekortene.
   openGraph: {
     type: "website",
     locale: "nb_NO",
@@ -77,7 +154,6 @@ export const metadata: Metadata = {
     ],
   },
 
-  // Twitter Card: brukes av X (Twitter) når siden deles.
   twitter: {
     card: "summary_large_image",
     title: "Baderomsrenovering og våtrom i Oslo og Akershus | Varige Bad",
@@ -86,8 +162,6 @@ export const metadata: Metadata = {
     images: [`${BASE_URL}/varigebad.jpg`],
   },
 
-  // robots: forteller søkemotorer at siden skal indekseres og at lenker
-  // skal følges. Dette er standard-oppførselen, men eksplisitt er bedre.
   robots: {
     index: true,
     follow: true,
@@ -99,8 +173,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // metadataBase: brukes av Next.js til å bygge absolutte URL-er for
-  // Open Graph-bilder og andre metadata-felt som krever full URL.
   metadataBase: new URL(BASE_URL),
 };
 
