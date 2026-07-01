@@ -25,25 +25,29 @@ const OSLO_BYDELER = [
   "Nordre Aker",
 ];
 
-// Alle kommuner i Akershus
+// Alle 21 kommuner i Akershus (offisiell liste per 2024, kilde: SSB/norgeskommuner.no)
 const AKERSHUS_KOMMUNER = [
-  "Bærum",
   "Asker",
+  "Aurskog-Høland",
+  "Bærum",
+  "Eidsvoll",
+  "Enebakk",
+  "Frogn",
+  "Gjerdrum",
+  "Hurdal",
+  "Jevnaker",
   "Lillestrøm",
+  "Lunner",
   "Lørenskog",
-  "Ski",
-  "Ås",
+  "Nannestad",
+  "Nes",
   "Nesodden",
+  "Nittedal",
   "Nordre Follo",
   "Rælingen",
-  "Enebakk",
-  "Nittedal",
-  "Gjerdrum",
   "Ullensaker",
-  "Nannestad",
-  "Eidsvoll",
-  "Hurdal",
-  "Aurskog-Høland",
+  "Vestby",
+  "Ås",
 ];
 
 // Kjente tettsteder
