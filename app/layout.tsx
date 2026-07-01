@@ -52,10 +52,8 @@ const AKERSHUS_KOMMUNER = [
 
 // Kjente tettsteder
 const TETTSTEDER = [
+  // Oslo
   "Sandvika",
-  "Jessheim",
-  "Kolbotn",
-  "Nesoddtangen",
   "Bekkestua",
   "Lysaker",
   "Fornebu",
@@ -66,6 +64,21 @@ const TETTSTEDER = [
   "Holmenkollen",
   "Jar",
   "Stabekk",
+  // Romerike
+  "Strømmen",
+  "Jessheim",
+  "Kjeller",
+  "Sørumsand",
+  "Fet",
+  // Follo
+  "Kolbotn",
+  "Ski sentrum",
+  "Ås sentrum",
+  "Drøbak",
+  "Son",
+  "Vinterbro",
+  // Nesodden
+  "Nesoddtangen",
 ];
 
 // Genererer nøkkelord for en liste med steder og et søkeord
