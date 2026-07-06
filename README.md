@@ -1,4 +1,4 @@
-# Varige Bad — Nettside
+# Varige Bad AS — Nettside
 
 > Nettsiden for **Varige Bad AS**, en bedrift som spesialiserer seg på baderomsrenovering, våtromsløsninger, rørleggerarbeid og flislegging i Oslo og Akershus.
 
