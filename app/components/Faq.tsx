@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Script from "next/script";
 
 export type FaqItem = {
   question: string;
@@ -11,7 +10,8 @@ export type FaqItem = {
 type FaqProps = {
   items: FaqItem[];
   heading?: string;
-  // SEO: unik id slik at JSON-LD ikke kolliderer hvis komponenten brukes flere ganger på samme side
+  // Unik id slik at JSON-LD-taggen kan identifiseres/debugges,
+  // og ikke kolliderer hvis komponenten mot formodning brukes to ganger.
   scriptId?: string;
 };
 
@@ -26,8 +26,22 @@ export default function Faq({
     setOpenIndex((current) => (current === idx ? null : idx));
   };
 
-  // SEO: FAQPage strukturert data — kan gi rich results (utvidbare spørsmål)
-  // direkte i Googles søkeresultater.
+  // SEO: FAQPage strukturert data.
+  // Merk 1: Vi bruker en vanlig <script>-tag (IKKE next/script). next/script med
+  // standardstrategien "afterInteractive" injiseres først i nettleseren etter
+  // lasting, og havner dermed ikke i server-rendret HTML. En vanlig <script>
+  // server-rendres, slik at Google garantert ser den ved første crawl.
+  // Verifiser med "Vis sidekilde" i nettleseren og søk etter "FAQPage".
+  //
+  // Merk 2: Google viser ikke lenger FAQ rich results for vanlige nettsteder
+  // (fjernet 2023, gjelder nå kun helse-/myndighetssider). Schemaet skader
+  // ikke og hjelper Google å forstå innholdet, men forvent ingen utvidbare
+  // spørsmål i søkeresultatene.
+  //
+  // Merk 3: Google anbefaler kun ÉN FAQPage per side. Hvis en side skal vise
+  // både generelle og tjenestespesifikke spørsmål, slå sammen listene og
+  // render én <Faq items={[...generalFaq, ...serviceFaq[slug]]} /> i stedet
+  // for to komponenter.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -46,7 +60,7 @@ export default function Faq({
       aria-labelledby="faq-heading"
       className="bg-white px-4 py-12 sm:px-6 sm:py-20 lg:px-8 xl:px-10"
     >
-      <Script
+      <script
         id={scriptId}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -93,16 +107,29 @@ export default function Faq({
                   </svg>
                 </button>
 
+                {/*
+                  Animasjon med grid-template-rows i stedet for max-height:
+                  max-h-96 (384px) klippet lange svar, spesielt på mobil.
+                  0fr -> 1fr animerer til faktisk innholdshøyde uansett lengde.
+                */}
                 <div
                   id={answerId}
                   role="region"
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? "max-h-96 pb-4 sm:pb-5" : "max-h-0"
+                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                    isOpen
+                      ? "[grid-template-rows:1fr]"
+                      : "[grid-template-rows:0fr]"
                   }`}
                 >
-                  <p className="text-[14px] leading-relaxed text-[#2A5A70] sm:text-[15px]">
-                    {item.answer}
-                  </p>
+                  <div className="overflow-hidden">
+                    <p
+                      className={`text-[14px] leading-relaxed text-[#2A5A70] sm:text-[15px] ${
+                        isOpen ? "pb-4 sm:pb-5" : ""
+                      }`}
+                    >
+                      {item.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
             );

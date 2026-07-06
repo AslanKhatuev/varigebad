@@ -111,6 +111,9 @@ export const metadata: Metadata = {
     "baderomsentreprenør Oslo",
     "baderomsentreprenør Akershus",
     "totaloppussing bad Oslo",
+    "pusse opp bad Oslo",
+    "pusse opp bad Akershus",
+    
 
     // ── Oslo bydeler × baderomsrenovering ────────────────────────────────────
     ...generer(OSLO_BYDELER, "baderomsrenovering"),
