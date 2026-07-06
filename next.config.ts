@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
       // ── Viderekoblinger fra gammel nettside (/nyheter) til ny (/blogg) ──
 
       {
+        source: "/nyheter/montering-av-dusjkabinett-slik-gjor-fagfolk-det",
+        destination: "/blogg/montering-av-dusjkabinett",
+        permanent: true,
+      },
+      {
         source: "/nyheter/derfor-skyldes-de-fleste-vannskader-feil-i-membran",
         destination: "/blogg/vannskader-feil-i-membranen",
         permanent: true,
@@ -21,16 +26,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // TODO: Dusjkabinett-artikkelen — legg inn når slug er bekreftet:
-      // {
-      //   source: "/nyheter/montering-av-dusjkabinett-slik-gjor-fagfolk-det",
-      //   destination: "/blogg/<SLUG-FRA-BLOGGEN>",
-      //   permanent: true,
-      // },
-
       // ── Oppsamling: alt annet under /nyheter → bloggforsiden ──
-      // Fanger /nyheter, dusjkabinett-artikkelen (inntil videre) og
-      // eventuelle ukjente gamle adresser. Må stå sist.
+      // Fanger /nyheter og eventuelle ukjente gamle adresser. Må stå sist.
       {
         source: "/nyheter/:path*",
         destination: "/blogg",
