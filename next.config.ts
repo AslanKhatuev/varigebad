@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
         destination: "/blogg/hva-koster-det-a-pusse-opp-bad-i-2026",
         permanent: true,
       },
+      {
+        source: "https://www.varigebad.no/contact",
+        destination: "https://www.varigebad.no/kontakt",
+        permanent: true,
+      },
 
       // ── Oppsamling: alt annet under /nyheter → bloggforsiden ──
       // Fanger /nyheter og eventuelle ukjente gamle adresser. Må stå sist.
