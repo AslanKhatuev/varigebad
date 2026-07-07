@@ -26,8 +26,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "https://www.varigebad.no/contact",
-        destination: "https://www.varigebad.no/kontakt",
+        source: "/nyheter/hva-koster-det-a-pusse-opp-bad-i-2025-oppdatert-gu",
+        destination: "/blogg/hva-koster-det-a-pusse-opp-bad-i-2026",
         permanent: true,
       },
 
@@ -38,11 +38,6 @@ const nextConfig: NextConfig = {
         destination: "/blogg",
         permanent: true,
       },
-      {
-        source: "/contact/:path*",
-        destination: "/kontakt",
-        permanent: true,
-      }
     ];
   },
 };
