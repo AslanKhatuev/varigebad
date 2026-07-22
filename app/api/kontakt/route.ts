@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { validerKontaktSkjema, skjemaErGyldig } from "@/lib/validering/kontaktSkjema";
+import {
+  validerKontaktSkjema,
+  skjemaErGyldig,
+} from "@/lib/validering/kontaktSkjema";
 
 export async function POST(req: Request) {
   const data = await req.json();
@@ -12,8 +15,8 @@ export async function POST(req: Request) {
 
   const transporter = nodemailer.createTransport({
     host: "send.one.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // STARTTLS på 587
     auth: {
       user: process.env.ONE_EPOST,
       pass: process.env.ONE_PASSORD,
@@ -35,7 +38,8 @@ export async function POST(req: Request) {
         `Melding:\n${data.melding}`,
     });
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ ok: false }, { status: 500 });
+  } catch (err) {
+    console.error("SMTP-feil:", err);
+    return NextResponse.json({ ok: false, feil: String(err) }, { status: 500 });
   }
 }
