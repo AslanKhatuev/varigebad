@@ -1,6 +1,64 @@
 "use client";
 
+import { useState } from "react";
+import {
+  validerKontaktSkjema,
+  skjemaErGyldig,
+  type KontaktFormData,
+  type KontaktFormFeil,
+} from "@/lib/validering/kontaktSkjema";
+
+const tomtSkjema: KontaktFormData = {
+  navn: "",
+  epost: "",
+  telefon: "",
+  adresse: "",
+  tjeneste: "",
+  melding: "",
+};
+
 export default function KontaktPage() {
+  const [data, setData] = useState<KontaktFormData>(tomtSkjema);
+  const [feil, setFeil] = useState<KontaktFormFeil>({});
+  const [sender, setSender] = useState(false);
+  const [sendtOk, setSendtOk] = useState(false);
+  const [sendtFeil, setSendtFeil] = useState(false);
+
+  function oppdater(felt: keyof KontaktFormData, verdi: string) {
+    setData((d) => ({ ...d, [felt]: verdi }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSendtOk(false);
+    setSendtFeil(false);
+
+    const nyeFeil = validerKontaktSkjema(data);
+    setFeil(nyeFeil);
+    if (!skjemaErGyldig(nyeFeil)) return;
+
+    setSender(true);
+    try {
+      const res = await fetch("/api/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setSendtOk(true);
+        setData(tomtSkjema);
+      } else {
+        const svar = await res.json().catch(() => null);
+        if (svar?.feil) setFeil(svar.feil);
+        setSendtFeil(true);
+      }
+    } catch {
+      setSendtFeil(true);
+    } finally {
+      setSender(false);
+    }
+  }
+
   return (
     <main className="bg-white text-[#1A3A4A]">
       {/* Hero */}
@@ -19,7 +77,7 @@ export default function KontaktPage() {
       <section className="px-4 py-10 sm:px-6 sm:py-16 md:py-20 lg:px-8 xl:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
-            {/* Kontaktinfo — avrundede kort */}
+            {/* Kontaktinfo */}
             <div>
               <h2 className="mb-6 text-[22px] font-light text-[#1A3A4A] sm:mb-8 sm:text-[28px] md:text-[32px]">
                 Kontakt informasjon
@@ -126,35 +184,8 @@ export default function KontaktPage() {
               </div>
             </div>
 
-            {/* Kontaktskjema — vises, men er deaktivert (under utvikling) */}
-            <div className="relative rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5 sm:p-6 md:p-7 lg:p-8">
-              {/* Info-banner om at skjemaet er stengt */}
-              <div className="mb-5 rounded-xl border border-[#B8E4F0] bg-white px-4 py-3.5 sm:mb-6 sm:px-5 sm:py-4">
-                <p className="text-[13px] leading-relaxed text-[#2A5A70] sm:text-[14px]">
-                  <span aria-hidden="true">🔒</span> Kontaktskjemaet er
-                  midlertidig stengt og under utvikling. Ved spørsmål, send en
-                  e-post til{" "}
-                  <a
-                    href="mailto:hawraz@varigebad.no"
-                    className="font-medium text-[#4DAEC8] hover:underline"
-                  >
-                    hawraz@varigebad.no
-                  </a>
-                  .
-                </p>
-                <p className="mt-2 text-[12px] text-[#9CC8D8] sm:text-[13px]">
-                  Signert av{" "}
-                  <a
-                    href="https://www.skylineinterface.no"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-[#9CC8D8] underline transition hover:text-[#4DAEC8]"
-                  >
-                    SkyLine Interface
-                  </a>
-                </p>
-              </div>
-
+            {/* Kontaktskjema — aktivert */}
+            <div className="rounded-2xl border border-[#B8E4F0] bg-[#F5FBFD] p-5 sm:p-6 md:p-7 lg:p-8">
               <h2 className="mb-2 text-[20px] font-light text-[#1A3A4A] sm:text-[22px] md:text-[24px]">
                 Send oss en melding
               </h2>
@@ -163,9 +194,19 @@ export default function KontaktPage() {
                 påkrevd.
               </p>
 
-              {/* fieldset disabled deaktiverer ALLE felt og knappen inni,
-                  samtidig som de fortsatt vises normalt med riktig styling. */}
-              <fieldset disabled className="space-y-4 opacity-60">
+              {sendtOk && (
+                <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3.5 text-[13px] text-green-700 sm:text-[14px]">
+                  Takk! Meldingen din er sendt. Vi svarer så raskt vi kan.
+                </div>
+              )}
+              {sendtFeil && (
+                <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3.5 text-[13px] text-red-700 sm:text-[14px]">
+                  Noe gikk galt under sending. Prøv igjen, eller send e-post til
+                  hawraz@varigebad.no.
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} noValidate className="space-y-4">
                 <div>
                   <label className="mb-1.5 block text-[12px] font-medium text-[#2A5A70] sm:text-[13px]">
                     Navn <span className="text-red-500">*</span>
@@ -173,9 +214,14 @@ export default function KontaktPage() {
                   <input
                     type="text"
                     name="navn"
+                    value={data.navn}
+                    onChange={(e) => oppdater("navn", e.target.value)}
                     placeholder="Ditt navn"
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
+                  {feil.navn && (
+                    <p className="mt-1 text-[12px] text-red-500">{feil.navn}</p>
+                  )}
                 </div>
 
                 <div>
@@ -185,9 +231,16 @@ export default function KontaktPage() {
                   <input
                     type="email"
                     name="epost"
+                    value={data.epost}
+                    onChange={(e) => oppdater("epost", e.target.value)}
                     placeholder="din@epost.no"
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
+                  {feil.epost && (
+                    <p className="mt-1 text-[12px] text-red-500">
+                      {feil.epost}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -197,9 +250,16 @@ export default function KontaktPage() {
                   <input
                     type="tel"
                     name="telefon"
+                    value={data.telefon}
+                    onChange={(e) => oppdater("telefon", e.target.value)}
                     placeholder="123 45 678"
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
+                  {feil.telefon && (
+                    <p className="mt-1 text-[12px] text-red-500">
+                      {feil.telefon}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -209,9 +269,16 @@ export default function KontaktPage() {
                   <input
                     type="text"
                     name="adresse"
+                    value={data.adresse}
+                    onChange={(e) => oppdater("adresse", e.target.value)}
                     placeholder="Gateadresse, postnummer og sted"
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
+                  {feil.adresse && (
+                    <p className="mt-1 text-[12px] text-red-500">
+                      {feil.adresse}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -220,8 +287,9 @@ export default function KontaktPage() {
                   </label>
                   <select
                     name="tjeneste"
-                    defaultValue=""
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none sm:px-4 sm:py-3 sm:text-[15px]"
+                    value={data.tjeneste}
+                    onChange={(e) => oppdater("tjeneste", e.target.value)}
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   >
                     <option value="" disabled>
                       Velg tjeneste
@@ -236,6 +304,11 @@ export default function KontaktPage() {
                     </option>
                     <option value="annet">Annet</option>
                   </select>
+                  {feil.tjeneste && (
+                    <p className="mt-1 text-[12px] text-red-500">
+                      {feil.tjeneste}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -245,23 +318,34 @@ export default function KontaktPage() {
                   <textarea
                     name="melding"
                     rows={4}
+                    maxLength={256}
+                    value={data.melding}
+                    onChange={(e) => oppdater("melding", e.target.value)}
                     placeholder="Beskriv prosjektet ditt kort..."
-                    className="w-full cursor-not-allowed rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] sm:px-4 sm:py-3 sm:text-[15px]"
+                    className="w-full rounded-xl border border-[#B8E4F0] bg-white px-3.5 py-2.5 text-[14px] text-[#1A3A4A] outline-none placeholder:text-[#9CC8D8] focus:border-[#4DAEC8] sm:px-4 sm:py-3 sm:text-[15px]"
                   />
-                  <div className="mt-1 flex items-center justify-end">
+                  <div className="mt-1 flex items-center justify-between">
+                    {feil.melding ? (
+                      <span className="text-[12px] text-red-500">
+                        {feil.melding}
+                      </span>
+                    ) : (
+                      <span />
+                    )}
                     <span className="text-[11px] font-medium tabular-nums text-[#9CC8D8] sm:text-[12px]">
-                      0 / 256
+                      {data.melding.length} / 256
                     </span>
                   </div>
                 </div>
 
                 <button
-                  type="button"
-                  className="w-full cursor-not-allowed rounded-full bg-[#4DAEC8] py-3.5 text-[14px] font-semibold text-white sm:py-4 sm:text-[15px]"
+                  type="submit"
+                  disabled={sender}
+                  className="w-full rounded-full bg-[#4DAEC8] py-3.5 text-[14px] font-semibold text-white transition hover:bg-[#3F9AB2] disabled:cursor-not-allowed disabled:opacity-60 sm:py-4 sm:text-[15px]"
                 >
-                  Send melding
+                  {sender ? "Sender..." : "Send melding"}
                 </button>
-              </fieldset>
+              </form>
             </div>
           </div>
         </div>
