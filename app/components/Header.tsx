@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -52,9 +53,13 @@ export default function Header() {
   );
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setMobileDropdownOpen(null);
-    setOpenDropdown(null);
+    const timer = setTimeout(() => {
+      setMobileMenuOpen(false);
+      setMobileDropdownOpen(null);
+      setOpenDropdown(null);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   const isActive = (href?: string) => {
@@ -72,9 +77,12 @@ export default function Header() {
       <div className="w-full px-3 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
         <div className="relative flex min-h-[64px] items-center gap-3 overflow-visible sm:min-h-[80px] sm:gap-4 md:min-h-[88px] lg:min-h-[96px]">
           <Link href="/" className="z-10 shrink-0">
-            <img
+            <Image
               src="/varigebad.jpg"
               alt="Varige Bad logo"
+              width={128}
+              height={128}
+              priority
               className="h-[72px] w-[72px] rounded-full object-cover sm:h-[96px] sm:w-[96px] md:h-[112px] md:w-[112px] lg:h-[128px] lg:w-[128px]"
             />
           </Link>
@@ -100,8 +108,8 @@ export default function Header() {
                           isOpen
                             ? "border-2 border-[#4DAEC8] bg-white text-[#1A3A4A]"
                             : active
-                            ? "bg-[#DCF2F9] text-[#1A3A4A]"
-                            : "bg-[#DCF2F9] text-[#1A3A4A] hover:bg-[#C8EAF5]"
+                              ? "bg-[#DCF2F9] text-[#1A3A4A]"
+                              : "bg-[#DCF2F9] text-[#1A3A4A] hover:bg-[#C8EAF5]"
                         }`}
                       >
                         <span>{item.label}</span>
@@ -223,7 +231,7 @@ export default function Header() {
                         type="button"
                         onClick={() =>
                           setMobileDropdownOpen((prev) =>
-                            prev === item.label ? null : item.label
+                            prev === item.label ? null : item.label,
                           )
                         }
                         className={`flex w-full items-center justify-between px-4 py-3.5 text-left text-[15px] font-medium text-[#1A3A4A] sm:py-4 sm:text-[16px] ${

@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
                     bedre enn vanlig <p> for søkemotorer og skjermlesere */}
                 <blockquote className="mb-3.5 flex-1 sm:mb-4">
                   <p className="text-[13px] italic leading-relaxed text-[#2A5A70] sm:text-[14px] lg:text-[15px]">
-                    "{t.quote}"
+                    &ldquo;{t.quote}&rdquo;
                   </p>
                 </blockquote>
 

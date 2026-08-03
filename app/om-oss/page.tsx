@@ -1,5 +1,6 @@
 // app/om-oss/page.tsx
 
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Script from "next/script";
@@ -174,11 +175,12 @@ export default function OmOssPage() {
               className="order-2 w-full overflow-hidden rounded-2xl lg:order-2"
               style={{ aspectRatio: "4/3" }}
             >
-              <img
+              <Image
                 src="/omoss.png"
                 alt="Renovert baderom med dusjkabinett og fritstående badekar, utført av Varige Bad"
-                loading="lazy"
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
 

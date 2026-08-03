@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
@@ -110,11 +111,12 @@ export default function ProjectsCarousel() {
             >
               {/* Bilde — høyde skalerer i tre steg */}
               <div className="relative h-[160px] w-full overflow-hidden sm:h-[190px] md:h-[200px] lg:h-[210px]">
-                <img
+                <Image
                   src={project.image}
                   alt={project.imageAlt}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
                 />
               </div>
 

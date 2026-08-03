@@ -217,14 +217,14 @@ export const articles: Article[] = [
   },
   {
     slug: "hva-koster-det-a-pusse-opp-bad-i-2026",
-    title: "Hva koster det å pusse opp bad i 2026? [Oppdatert guide]",
+    title: "Hva koster det å pusse opp bad i 2026? ",
     excerpt:
       "Lurer du på hva det koster å pusse opp badet? Vi gir deg en oversikt over priser, hva som påvirker kostnaden, og risikoene ved å gjøre det selv.",
     image: "/pussebad.jpg",
     imageAlt: "Nyoppusset baderom med fliser og dusjsone, Varige Bad",
     publishedDate: "2026-01-20",
     metaTitle:
-      "Hva koster det å pusse opp bad i 2026? [Oppdatert guide] | Varige Bad",
+      "Hva koster det å pusse opp bad i 2026? | Varige Bad",
     metaDescription:
       "Oppdatert prisguide for baderomsoppussing i 2026 — se hva totalrenovering, delvis oppussing og gjør-det-selv koster, og hva som påvirker prisen.",
     keywords: [

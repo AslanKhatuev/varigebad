@@ -61,10 +61,15 @@ export default function Hero() {
 
   useEffect(() => {
     const onFsChange = () => {
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null;
+        msFullscreenElement?: Element | null;
+      };
+
       const fsEl =
         document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).msFullscreenElement;
+        doc.webkitFullscreenElement ||
+        doc.msFullscreenElement;
       setIsFullscreen(!!fsEl);
     };
     document.addEventListener("fullscreenchange", onFsChange);
@@ -91,13 +96,18 @@ export default function Hero() {
 
   useEffect(() => {
     if (!isPlaying) {
-      setShowControls(true);
-      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-    } else {
-      scheduleHide();
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+      return;
     }
+
+    scheduleHide();
+
     return () => {
-      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
     };
   }, [isPlaying, scheduleHide]);
 
@@ -124,32 +134,50 @@ export default function Hero() {
   };
 
   const toggleFullscreen = () => {
-    const el = wrapRef.current as any;
+    const el = wrapRef.current;
     if (!el) return;
+
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null;
+      msFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => void;
+      msExitFullscreen?: () => void;
+    };
+
+    const element = el as HTMLElement & {
+      webkitRequestFullscreen?: () => void;
+      msRequestFullscreen?: () => void;
+    };
+
+    const video = videoRef.current as HTMLVideoElement & {
+      webkitEnterFullscreen?: () => void;
+    };
 
     const isFs =
       document.fullscreenElement ||
-      (document as any).webkitFullscreenElement ||
-      (document as any).msFullscreenElement;
+      doc.webkitFullscreenElement ||
+      doc.msFullscreenElement;
 
     if (!isFs) {
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      else if (el.msRequestFullscreen) el.msRequestFullscreen();
-      else if (
-        videoRef.current &&
-        (videoRef.current as any).webkitEnterFullscreen
-      ) {
-        (videoRef.current as any).webkitEnterFullscreen();
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      } else if (video?.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
       } else {
         console.warn("Fullskjerm er ikke støttet i denne nettleseren.");
       }
     } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if ((document as any).webkitExitFullscreen)
-        (document as any).webkitExitFullscreen();
-      else if ((document as any).msExitFullscreen)
-        (document as any).msExitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
     }
   };
 

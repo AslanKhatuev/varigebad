@@ -1,42 +1,32 @@
-// app/blogg/page.tsx
-
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { articles, estimateReadingMinutes } from "@/lib/articlesData";
 
 export const metadata: Metadata = {
-  title: "Blogg — guider om bad og våtrom i Oslo og Akershus | Varige Bad",
+  title: "Blogg om bad og våtrom | Priser, tips og guider | Varige Bad",
   description:
-    "Praktiske guider og fagartikler om baderomsrenovering, våtrom, membran og rørleggerarbeid — skrevet av Varige Bads egne fagfolk i Oslo og Akershus.",
-  keywords: [
-    "blogg bad og våtrom",
-    "guide baderomsrenovering",
-    "fagartikler våtrom",
-    "Varige Bad blogg",
-    "baderomsguide Oslo",
-    "baderomsguide Akershus",
-    "rørlegger guide",
-    "membran guide",
-    "pris baderomsoppussing guide",
-    "dusjkabinett guide",
-  ],
+    "Les fagartikler og guider om baderomsrenovering, våtrom, priser, membran, rørleggerarbeid og smarte løsninger. Få tips fra Varige Bad før du pusser opp bad.",
+
   alternates: {
     canonical: "https://www.varigebad.no/blogg",
   },
+
   openGraph: {
-    title: "Blogg — guider om bad og våtrom | Varige Bad",
+    title: "Blogg om bad og våtrom | Varige Bad",
     description:
-      "Praktiske guider og fagartikler om baderomsrenovering og våtrom fra Varige Bad.",
+      "Praktiske guider om baderomsrenovering, priser, våtrom og løsninger fra Varige Bad.",
     url: "https://www.varigebad.no/blogg",
     siteName: "Varige Bad",
     type: "website",
     locale: "nb_NO",
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "Blogg — guider om bad og våtrom | Varige Bad",
-    description: "Praktiske guider og fagartikler fra Varige Bad.",
+    title: "Blogg om bad og våtrom | Varige Bad",
+    description: "Få tips, priser og faglige råd før du skal pusse opp bad.",
   },
 };
 
@@ -138,12 +128,13 @@ export default function BloggPage() {
                     aria-label={`Les artikkelen: ${article.title}`}
                     className="group flex flex-col gap-3 rounded-2xl border border-[#EDF8FC] p-3 transition hover:border-[#B8E4F0] hover:shadow-sm sm:flex-row sm:gap-5 sm:p-4 md:gap-6"
                   >
-                    <div className="h-[160px] w-full shrink-0 overflow-hidden rounded-xl bg-[#C8EAF5] sm:h-[140px] sm:w-[200px] md:h-[160px] md:w-[240px] lg:h-[170px] lg:w-[260px]">
-                      <img
+                    <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-xl bg-[#C8EAF5] sm:h-[140px] sm:w-[200px] md:h-[160px] md:w-[240px] lg:h-[170px] lg:w-[260px]">
+                      <Image
                         src={article.image}
                         alt={article.imageAlt}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 200px, 260px"
+                        className="object-cover transition duration-300 group-hover:scale-105"
                       />
                     </div>
 
@@ -156,7 +147,7 @@ export default function BloggPage() {
                               day: "numeric",
                               month: "long",
                               year: "numeric",
-                            }
+                            },
                           )}
                         </time>
                         <span aria-hidden="true">·</span>

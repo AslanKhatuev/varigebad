@@ -1,5 +1,6 @@
 // app/tjenester/[slug]/page.tsx
 
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -335,9 +336,12 @@ export default async function ServicePage({ params }: Props) {
               ligge etter tekst avhengig av preferanse. Her: bilde under tekst
               på mobil/tablet (order via DOM), side ved side på desktop. */}
           <div className="order-2 overflow-hidden rounded-[24px] shadow-lg sm:rounded-[28px] lg:order-2 lg:rounded-[32px]">
-            <img
+            <Image
               src={service.image}
               alt={`${service.title} utført av Varige Bad i Oslo og Akershus`}
+              width={1200}
+              height={800}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
               className="h-[220px] w-full object-cover sm:h-[300px] md:h-[360px] lg:h-[420px]"
             />
           </div>

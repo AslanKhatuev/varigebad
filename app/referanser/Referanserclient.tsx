@@ -274,7 +274,7 @@ export default function ReferanserClient() {
                 og innholdet bidrar til E-E-A-T (Trustworthiness) via ekte kundeerfaring */}
             <blockquote className="mx-auto max-w-3xl text-center">
               <p className="mb-3 text-[16px] italic leading-relaxed text-[#2A5A70] sm:text-[18px]">
-                "{project.quote}"
+                &quot;{project.quote}&quot;
               </p>
               <footer className="text-[15px] font-semibold text-[#1A3A4A]">
                 — <cite>{project.author}</cite>

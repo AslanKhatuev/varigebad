@@ -1,6 +1,7 @@
 // app/blogg/[slug]/page.tsx
 
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
@@ -30,7 +31,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: article.metaTitle,
     description: article.metaDescription,
     keywords: article.keywords,
-    alternates: { canonical: url },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+
+    alternates: {
+      canonical: url,
+    },
+
+    authors: [
+      {
+        name: "Varige Bad AS",
+        url: "https://www.varigebad.no",
+      },
+    ],
+
+    creator: "Varige Bad AS",
+    publisher: "Varige Bad AS",
+
     openGraph: {
       title: article.metaTitle,
       description: article.metaDescription,
@@ -48,10 +68,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       ],
     },
+
     twitter: {
       card: "summary_large_image",
       title: article.metaTitle,
       description: article.metaDescription,
+      images: [`https://www.varigebad.no${article.image}`],
     },
   };
 }
@@ -182,7 +204,7 @@ function renderBlock(block: ContentBlock, idx: number) {
           className="mb-5 border-l-4 border-[#4DAEC8] bg-[#F5FBFD] px-4 py-3.5 sm:mb-6 sm:px-5 sm:py-4"
         >
           <p className="mb-2 text-[13px] italic leading-relaxed text-[#2A5A70] sm:text-[15px]">
-            "{block.text}"
+            &quot;{block.text}&quot;
           </p>
           <footer className="text-[12px] font-semibold text-[#1A3A4A] sm:text-[14px]">
             <cite className="not-italic">— {block.author}</cite>
@@ -316,11 +338,13 @@ export default async function ArticlePage({ params }: Props) {
             <span>{minutes} min lesetid</span>
           </div>
 
-          <div className="mb-6 overflow-hidden rounded-2xl bg-[#C8EAF5] sm:mb-8">
-            <img
+          <div className="group relative mb-6 h-[200px] overflow-hidden rounded-2xl bg-[#C8EAF5] sm:mb-8 sm:h-[320px] md:h-[420px]">
+            <Image
               src={article.image}
               alt={article.imageAlt}
-              className="h-[200px] w-full object-cover sm:h-[320px] md:h-[420px]"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 768px, 1200px"
+              className="object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
 
@@ -331,7 +355,7 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       </article>
 
-      <CtaSection />
+            <CtaSection />
     </main>
   );
 }
