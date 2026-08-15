@@ -1,435 +1,84 @@
-"use client";
-
-import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-function formatTime(seconds: number) {
-  if (!isFinite(seconds) || seconds < 0) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
 export default function Hero() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
-  const [hasVideo, setHasVideo] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isScrubbing, setIsScrubbing] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showControls, setShowControls] = useState(true);
-
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-
-    const onCanPlay = () => setHasVideo(true);
-    const onError = () => setHasVideo(false);
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
-    const onVolumeChange = () => setIsMuted(video.muted);
-    const onLoadedMetadata = () => setDuration(video.duration);
-    const onTimeUpdate = () => {
-      if (!isScrubbing) setCurrentTime(video.currentTime);
-    };
-
-    video.addEventListener("canplay", onCanPlay);
-    video.addEventListener("error", onError);
-    video.addEventListener("play", onPlay);
-    video.addEventListener("pause", onPause);
-    video.addEventListener("volumechange", onVolumeChange);
-    video.addEventListener("loadedmetadata", onLoadedMetadata);
-    video.addEventListener("timeupdate", onTimeUpdate);
-
-    return () => {
-      video.removeEventListener("canplay", onCanPlay);
-      video.removeEventListener("error", onError);
-      video.removeEventListener("play", onPlay);
-      video.removeEventListener("pause", onPause);
-      video.removeEventListener("volumechange", onVolumeChange);
-      video.removeEventListener("loadedmetadata", onLoadedMetadata);
-      video.removeEventListener("timeupdate", onTimeUpdate);
-    };
-  }, [isScrubbing]);
-
-  useEffect(() => {
-    const onFsChange = () => {
-      const doc = document as Document & {
-        webkitFullscreenElement?: Element | null;
-        msFullscreenElement?: Element | null;
-      };
-
-      const fsEl =
-        document.fullscreenElement ||
-        doc.webkitFullscreenElement ||
-        doc.msFullscreenElement;
-      setIsFullscreen(!!fsEl);
-    };
-    document.addEventListener("fullscreenchange", onFsChange);
-    document.addEventListener("webkitfullscreenchange", onFsChange);
-    document.addEventListener("MSFullscreenChange", onFsChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", onFsChange);
-      document.removeEventListener("webkitfullscreenchange", onFsChange);
-      document.removeEventListener("MSFullscreenChange", onFsChange);
-    };
-  }, []);
-
-  const scheduleHide = useCallback(() => {
-    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-    hideTimeoutRef.current = setTimeout(() => {
-      if (isPlaying && !isScrubbing) setShowControls(false);
-    }, 2500);
-  }, [isPlaying, isScrubbing]);
-
-  const handleActivity = useCallback(() => {
-    setShowControls(true);
-    scheduleHide();
-  }, [scheduleHide]);
-
-  useEffect(() => {
-    if (!isPlaying) {
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-      return;
-    }
-
-    scheduleHide();
-
-    return () => {
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-    };
-  }, [isPlaying, scheduleHide]);
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video
-        .play()
-        .catch((err) => console.error("Kunne ikke spille video:", err));
-    } else {
-      video.pause();
-    }
-  };
-
-  const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    if (!video.muted && video.volume === 0) {
-      video.volume = 1;
-    }
-    setIsMuted(video.muted);
-  };
-
-  const toggleFullscreen = () => {
-    const el = wrapRef.current;
-    if (!el) return;
-
-    const doc = document as Document & {
-      webkitFullscreenElement?: Element | null;
-      msFullscreenElement?: Element | null;
-      webkitExitFullscreen?: () => void;
-      msExitFullscreen?: () => void;
-    };
-
-    const element = el as HTMLElement & {
-      webkitRequestFullscreen?: () => void;
-      msRequestFullscreen?: () => void;
-    };
-
-    const video = videoRef.current as HTMLVideoElement & {
-      webkitEnterFullscreen?: () => void;
-    };
-
-    const isFs =
-      document.fullscreenElement ||
-      doc.webkitFullscreenElement ||
-      doc.msFullscreenElement;
-
-    if (!isFs) {
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      } else if (video?.webkitEnterFullscreen) {
-        video.webkitEnterFullscreen();
-      } else {
-        console.warn("Fullskjerm er ikke støttet i denne nettleseren.");
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (doc.webkitExitFullscreen) {
-        doc.webkitExitFullscreen();
-      } else if (doc.msExitFullscreen) {
-        doc.msExitFullscreen();
-      }
-    }
-  };
-
-  const seekFromClientX = (clientX: number) => {
-    const bar = progressRef.current;
-    const video = videoRef.current;
-    if (!bar || !video || !duration) return;
-    const rect = bar.getBoundingClientRect();
-    const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-    const newTime = ratio * duration;
-    video.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    seekFromClientX(e.clientX);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    setIsScrubbing(true);
-    setShowControls(true);
-    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-    seekFromClientX(e.clientX);
-
-    const onMove = (ev: PointerEvent) => seekFromClientX(ev.clientX);
-    const onUp = () => {
-      setIsScrubbing(false);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-    };
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-  };
-
-  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
-
   return (
     <section
-      aria-label="Introduksjon: Eksperter på baderomsrenovering og våtrom i Oslo"
+      aria-label="Introduksjon: Eksperter på bad og våtrom i Oslo"
       className="px-4 pb-10 pt-10 sm:px-6 sm:pb-16 sm:pt-14 md:pb-20 md:pt-16 lg:px-8 xl:px-10"
     >
       <div className="mx-auto max-w-7xl">
-        {/* Oppdatert: hovedfokus er baderomsrenovering og våtrom,
-            flislegging og rørleggerarbeid nevnes som del av helheten,
-            ikke som hovedbudskap */}
         <h1 className="mb-4 max-w-3xl text-[28px] font-light leading-tight tracking-tight text-[#1A3A4A] sm:mb-5 sm:text-[40px] md:text-[48px] lg:text-[60px]">
-          Eksperter på baderomsrenovering og våtrom i Oslo
+          Ekspertise på bad og våtrom
         </h1>
 
-        <p className="mb-6 max-w-xl text-[15px] leading-relaxed text-[#2A5A70] sm:mb-8 sm:text-[16px] md:text-[18px]">
-          Vi leverer komplette baderomsrenoveringer med fokus på trygge
-          våtromsløsninger, rørleggerarbeid og innredning — i tillegg til
-          flislegging. Høy kvalitet og forutsigbar fremdrift, hver gang.
-        </p>
-
-        <div className="mb-8 flex flex-wrap gap-3 sm:mb-10">
-          <Link
-            href="/kontakt"
-            className="rounded-full bg-[#4DAEC8] px-6 py-3 text-[14px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:px-7 sm:py-3.5 sm:text-[15px]"
-          >
-            Book gratis befaring
-          </Link>
-          <Link
-            href="/tjenester/totaloppussing-av-bad"
-            className="rounded-full border border-[#B8E4F0] px-6 py-3 text-[14px] font-medium text-[#1A3A4A] transition hover:bg-[#DCF2F9] sm:px-7 sm:py-3.5 sm:text-[15px]"
-          >
-            Se alle våre tjenester
-          </Link>
+        <div className="mb-6 sm:mb-8">
+          <p className="mb-3 text-[14px] font-semibold text-[#1A3A4A] sm:text-[15px]">
+            Det som kjennetegner oss best:
+          </p>
+          <ul className="flex flex-wrap gap-2.5 sm:gap-3">
+            {["Fast pris", "Ingen skjulte kostnader", "Autoriserte håndverkere"].map(
+              (item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-1.5 rounded-full bg-[#DCF2F9] px-4 py-2 text-[13px] font-medium text-[#1A3A4A] sm:text-[14px]"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    className="shrink-0 text-[#3A9AB5]"
+                  >
+                    <path
+                      d="M20 6L9 17l-5-5"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {item}
+                </li>
+              )
+            )}
+          </ul>
         </div>
 
-        <div
-          ref={wrapRef}
-          role="group"
-          aria-label="Presentasjonsvideo av Varige Bads baderomsprosjekter"
-          onMouseMove={handleActivity}
-          onMouseEnter={handleActivity}
-          onTouchStart={handleActivity}
-          className={
-            isFullscreen
-              ? "relative flex h-screen w-screen items-center justify-center bg-black"
-              : "relative w-full overflow-hidden rounded-2xl bg-black shadow-[0_20px_60px_rgba(77,174,200,0.15)]"
-          }
-        >
-          <video
-            ref={videoRef}
-            playsInline
-            loop
-            autoPlay
-            controls={false}
-            onClick={togglePlay}
-            aria-label="Video som viser Varige Bads baderomsrenoveringer i Oslo"
-            className={
-              isFullscreen
-                ? "max-h-full max-w-full cursor-pointer object-contain"
-                : "block w-full cursor-pointer"
-            }
-          >
-            <source src="/varigebad.mp4" type="video/mp4" />
-            <source src="/varigebad.MOV" type="video/quicktime" />
-            Din nettleser støtter ikke videoavspilling.
-          </video>
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-black shadow-[0_20px_60px_rgba(77,174,200,0.15)] sm:aspect-[16/10] md:aspect-[16/9]">
+          <Image
+            src="/varigebad.png"
+            alt="Ferdigstilt baderom levert av Varige Bad"
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="object-cover"
+          />
 
-          {!hasVideo && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#C8EAF5] via-[#9AD5E8] to-[#4DAEC8]">
-              <span className="text-[13px] font-medium text-white/85 sm:text-[14px]">
-                Presentasjonsvideo
-              </span>
-            </div>
-          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-          <div
-            className={`absolute inset-x-0 bottom-0 z-50 bg-gradient-to-t from-black/75 via-black/35 to-transparent transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "pointer-events-none opacity-0"
-            } ${
-              isFullscreen
-                ? "px-4 pb-4 pt-10 sm:px-6 sm:pb-6"
-                : "px-3 pb-3 pt-8 sm:px-4 sm:pb-4"
-            }`}
-          >
-            <div
-              ref={progressRef}
-              onClick={handleProgressClick}
-              onPointerDown={handlePointerDown}
-              role="slider"
-              aria-label="Videofremdrift"
-              aria-valuemin={0}
-              aria-valuemax={duration}
-              aria-valuenow={currentTime}
-              tabIndex={0}
-              className="group relative mb-2 h-3 w-full cursor-pointer touch-none sm:mb-3"
-            >
-              <div className="absolute left-0 top-1/2 h-1.5 w-full -translate-y-1/2 rounded-full bg-white/25" />
-              <div
-                className="absolute left-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-[#4DAEC8]"
-                style={{ width: `${progressPercent}%` }}
-              />
-              <div
-                className="absolute top-1/2 h-3 w-3 -translate-y-1/2 -translate-x-1/2 rounded-full bg-white shadow transition-transform group-hover:scale-110 sm:h-3.5 sm:w-3.5"
-                style={{ left: `${progressPercent}%` }}
-              />
-            </div>
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 md:p-10">
+            <p className="mb-6 max-w-xl text-[15px] leading-relaxed text-white sm:mb-8 sm:text-[16px] md:text-[18px]">
+              Vi leverer komplette baderom fra start til slutt – med solide
+              våtromsløsninger, rørleggerarbeid, innredning og profesjonell
+              flislegging. Vi kombinerer høy kvalitet med effektiv gjennomføring
+              og forutsigbar fremdrift – hver gang.
+            </p>
 
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <button
-                  type="button"
-                  onClick={togglePlay}
-                  aria-label={isPlaying ? "Pause video" : "Spill av video"}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/30 text-white transition hover:bg-black/70 sm:h-10 sm:w-10"
-                  style={{ backgroundColor: "rgba(20, 30, 40, 0.85)" }}
-                >
-                  {isPlaying ? (
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="sm:h-4 sm:w-4"
-                    >
-                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="sm:h-4 sm:w-4"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={toggleMute}
-                  aria-label={isMuted ? "Skru på lyd" : "Skru av lyd"}
-                  className="flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/30 px-2.5 text-[11px] font-medium text-white transition hover:bg-black/70 sm:h-10 sm:px-3.5 sm:text-[13px]"
-                  style={{ backgroundColor: "rgba(20, 30, 40, 0.85)" }}
-                >
-                  {isMuted ? (
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="sm:h-[15px] sm:w-[15px]"
-                    >
-                      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="sm:h-[15px] sm:w-[15px]"
-                    >
-                      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                    </svg>
-                  )}
-                  <span className="hidden sm:inline">
-                    {isMuted ? "Lyd av" : "Lyd på"}
-                  </span>
-                </button>
-
-                <span className="select-none whitespace-nowrap text-[11px] font-medium tabular-nums text-white/90 sm:text-[13px]">
-                  {formatTime(currentTime)} / {formatTime(duration)}
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={toggleFullscreen}
-                aria-label={
-                  isFullscreen ? "Lukk fullskjerm" : "Åpne video i fullskjerm"
-                }
-                className="flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/30 px-2.5 text-[11px] font-medium text-white transition hover:bg-black/70 sm:h-10 sm:px-3.5 sm:text-[13px]"
-                style={{ backgroundColor: "rgba(20, 30, 40, 0.85)" }}
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/kontakt"
+                className="rounded-full bg-[#4DAEC8] px-6 py-3 text-[14px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:px-7 sm:py-3.5 sm:text-[15px]"
               >
-                {isFullscreen ? (
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="sm:h-[15px] sm:w-[15px]"
-                  >
-                    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
-                  </svg>
-                ) : (
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="sm:h-[15px] sm:w-[15px]"
-                  >
-                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
-                  </svg>
-                )}
-                <span className="hidden sm:inline">
-                  {isFullscreen ? "Lukk" : "Fullskjerm"}
-                </span>
-              </button>
+                Book gratis befaring
+              </Link>
+              <Link
+                href="/tjenester/totaloppussing-av-bad"
+                className="rounded-full border border-white/70 px-6 py-3 text-[14px] font-medium text-white transition hover:bg-white/10 sm:px-7 sm:py-3.5 sm:text-[15px]"
+              >
+                Se alle våre tjenester
+              </Link>
             </div>
           </div>
         </div>
