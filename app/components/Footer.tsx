@@ -51,8 +51,9 @@ export default function Footer() {
             </div>
 
             <p className="mb-4 max-w-xs text-[14px] leading-relaxed text-white/60">
-              Eksperter på baderomsrenovering og våtrom i Oslo og Akershus, med
-              rørleggerarbeid og flislegging som del av helheten.
+              Din totalleverandør for baderomsrenovering og våtrom i Oslo- fra
+              rørleggerarbeid til membran, elektrisk, flislegging til et
+              komplett ferdigstilt bad
             </p>
 
             <address className="not-italic">

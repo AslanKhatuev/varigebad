@@ -94,7 +94,8 @@ export default function ServicesOverview() {
               id="services-heading"
               className="text-[24px] font-semibold leading-tight text-[#1A3A4A] sm:text-[28px] md:text-[34px] lg:text-[40px]"
             >
-              Full baderomsrenovering og våtromsløsninger
+              Totalrenovering av bad og komplette
+              våtromsløsninger
             </h2>
           </div>
           <Link
