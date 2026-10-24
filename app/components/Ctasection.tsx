@@ -26,7 +26,7 @@ export default function CtaSection() {
   return (
     <section
       aria-labelledby="cta-heading"
-      className="bg-[#1A3A4A] px-4 py-14 sm:px-6 sm:py-20 lg:px-8 xl:px-10"
+      className="relative z-10 bg-[#1A3A4A] px-4 py-14 sm:px-6 sm:py-20 lg:mx-[calc(50%-50vw)] lg:px-8 xl:px-10"
     >
       <Script
         id="cta-section-jsonld"

@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 type DropdownItem = {
   label: string;
   href: string;
+  description: string;
+  icon: ReactNode;
 };
 
 type NavItem = {
@@ -16,6 +18,130 @@ type NavItem = {
   dropdown?: DropdownItem[];
 };
 
+const PHONE_DISPLAY = "958 98 458";
+const PHONE_HREF = "tel:+4795898458";
+
+// Ikoner tegnet i samme stil som lucide (24×24, stroke).
+const icons = {
+  bath: (
+    <>
+      <path d="M10 4 8 6" />
+      <path d="M17 19v2" />
+      <path d="M2 12h20" />
+      <path d="M7 19v2" />
+      <path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+    </>
+  ),
+  wrench: (
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+  ),
+  roller: (
+    <>
+      <rect x="2" y="2" width="16" height="6" rx="2" />
+      <path d="M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+      <rect x="8" y="16" width="4" height="6" rx="1" />
+    </>
+  ),
+  tag: (
+    <>
+      <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+      <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+      <circle cx="12" cy="10" r="3" />
+    </>
+  ),
+  phone: (
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  ),
+};
+
+function Icon({
+  children,
+  className = "h-[18px] w-[18px]",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  );
+}
+
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+        open ? "rotate-180" : ""
+      }`}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+function DropdownLink({
+  item,
+  active,
+}: {
+  item: DropdownItem;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={item.href}
+      className={`group flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-[#4DAEC8]/10 ${
+        active ? "bg-[#4DAEC8]/10" : ""
+      }`}
+    >
+      <span
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors group-hover:bg-[#4DAEC8] group-hover:text-white ${
+          active ? "bg-[#4DAEC8] text-white" : "bg-[#4DAEC8]/15 text-[#1A3A4A]"
+        }`}
+      >
+        <Icon>{item.icon}</Icon>
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[14px] font-medium text-[#1A3A4A]">
+          {item.label}
+        </span>
+        <span className="block text-[12.5px] text-gray-500">
+          {item.description}
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 const navItems: NavItem[] = [
   {
     label: "Tjenester",
@@ -23,11 +149,33 @@ const navItems: NavItem[] = [
       {
         label: "Totaloppussing av bad",
         href: "/tjenester/totaloppussing-av-bad",
+        description: "Komplett bad fra riving til ferdig",
+        icon: icons.bath,
       },
-      { label: "Flislegging", href: "/tjenester/flislegging" },
-      { label: "Rørleggerarbeid", href: "/tjenester/rorleggerarbeid" },
-      { label: "Innvendig oppussing", href: "/tjenester/innvendig-oppussing" },
-      { label: "Fastprispakken", href: "/tjenester/fastprispakken" },
+      {
+        label: "Flislegging",
+        href: "/tjenester/flislegging",
+        description: "Gulv og vegger med presisjon",
+        icon: icons.grid,
+      },
+      {
+        label: "Rørleggerarbeid",
+        href: "/tjenester/rorleggerarbeid",
+        description: "Rør-i-rør, sluk og sanitær",
+        icon: icons.wrench,
+      },
+      {
+        label: "Innvendig oppussing",
+        href: "/tjenester/innvendig-oppussing",
+        description: "Oppgradering av hele boligen",
+        icon: icons.roller,
+      },
+      {
+        label: "Fastprispakken",
+        href: "/tjenester/fastprispakken",
+        description: "Nytt bad til fastpris – 299 000 kr",
+        icon: icons.tag,
+      },
     ],
   },
   { label: "Referanser", href: "/referanser" },
@@ -35,13 +183,27 @@ const navItems: NavItem[] = [
   {
     label: "Områder",
     dropdown: [
-      { label: "Oslo", href: "/omrader/oslo" },
-      { label: "Akershus", href: "/omrader/akershus" },
-      { label: "Oslo og omegn", href: "/omrader/oslo-og-omegn" },
+      {
+        label: "Oslo",
+        href: "/omrader/oslo",
+        description: "Baderenovering i hele Oslo",
+        icon: icons.pin,
+      },
+      {
+        label: "Akershus",
+        href: "/omrader/akershus",
+        description: "Vi dekker hele Akershus",
+        icon: icons.pin,
+      },
+      {
+        label: "Oslo og omegn",
+        href: "/omrader/oslo-og-omegn",
+        description: "Nabokommunene rundt Oslo",
+        icon: icons.pin,
+      },
     ],
   },
   { label: "Om oss", href: "/om-oss" },
-  { label: "Kontakt oss", href: "/kontakt" },
 ];
 
 export default function Header() {
@@ -50,7 +212,7 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -63,6 +225,17 @@ export default function Header() {
     return () => clearTimeout(timer);
   }, [pathname]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenDropdown(null);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const isActive = (href?: string) => {
     if (!href) return false;
     if (href === "/") return pathname === "/";
@@ -74,233 +247,217 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#B8E4F0] bg-white">
-      <div className="w-full px-3 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
-        <div className="relative flex min-h-[64px] items-center gap-3 overflow-visible sm:min-h-[80px] sm:gap-4 md:min-h-[88px] lg:min-h-[96px]">
-          <Link href="/" className="z-10 shrink-0">
+    <header className="sticky top-0 z-50 bg-[#4DAEC8] px-3 py-2.5 sm:px-4">
+      <div
+        className="relative mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-3 rounded-full bg-white pl-4 pr-2.5 shadow-[0_10px_40px_-12px_rgba(16,24,40,0.18)] ring-1 ring-black/5 sm:pl-6 lg:grid lg:h-[80px] lg:grid-cols-[1fr_auto_1fr]"
+      >
+        {/* Venstre: logo */}
+        <div className="flex min-w-0 items-center">
+          <Link
+            href="/"
+            className="shrink-0"
+            aria-label="Varige Bad – til forsiden"
+          >
             <Image
-              src="/varigebad.jpg"
+              src="/varigebad-logo.png"
               alt="Varige Bad logo"
-              width={128}
-              height={128}
+              width={296}
+              height={285}
               priority
-              className="h-[72px] w-[72px] rounded-full object-cover sm:h-[96px] sm:w-[96px] md:h-[112px] md:w-[112px] lg:h-[128px] lg:w-[128px]"
+              className="h-[60px] w-auto lg:h-[68px]"
             />
           </Link>
+        </div>
 
-          <div className="ml-auto hidden items-center gap-3 lg:flex lg:gap-4 2xl:gap-6">
-            <nav className="flex items-center gap-2 lg:gap-3 2xl:gap-6">
-              {navItems.map((item) => {
-                const hasDropdown = !!item.dropdown;
-                const active = isActive(item.href) || isDropdownActive(item);
-                const isOpen = openDropdown === item.label;
+        {/* Midten: hovedmeny */}
+        <nav
+          aria-label="Hovedmeny"
+          className="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-9"
+        >
+          {navItems.map((item) => {
+            const active = isActive(item.href) || isDropdownActive(item);
 
-                if (hasDropdown) {
-                  return (
-                    <div
-                      key={item.label}
-                      className="relative"
-                      onMouseEnter={() => setOpenDropdown(item.label)}
-                      onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                      <button
-                        type="button"
-                        className={`flex items-center gap-1.5 rounded-full px-3 py-2.5 text-[13px] font-medium transition lg:px-4 lg:py-3 lg:text-[14px] 2xl:px-5 2xl:text-[17px] ${
-                          isOpen
-                            ? "border-2 border-[#4DAEC8] bg-white text-[#1A3A4A]"
-                            : active
-                              ? "bg-[#DCF2F9] text-[#1A3A4A]"
-                              : "bg-[#DCF2F9] text-[#1A3A4A] hover:bg-[#C8EAF5]"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <svg
-                          className={`h-3.5 w-3.5 shrink-0 transition lg:h-4 lg:w-4 ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
-                          viewBox="0 0 20 20"
-                          fill="none"
-                        >
-                          <path
-                            d="M5 7.5L10 12.5L15 7.5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      {isOpen && (
-                        <div className="absolute left-0 top-full min-w-[240px] pt-3 2xl:min-w-[290px]">
-                          <div className="rounded-[24px] bg-[#DCF2F9] p-3 shadow-[0_8px_24px_rgba(77,174,200,0.15)] lg:rounded-[28px] lg:p-4 2xl:p-5">
-                            <div className="flex flex-col">
-                              {item.dropdown?.map((subItem) => (
-                                <Link
-                                  key={subItem.href}
-                                  href={subItem.href}
-                                  className={`rounded-2xl px-3.5 py-2.5 text-[14px] text-[#1A3A4A] transition hover:bg-white/60 lg:px-4 lg:py-3 lg:text-[15px] 2xl:text-[17px] ${
-                                    pathname.startsWith(subItem.href)
-                                      ? "bg-white/60"
-                                      : ""
-                                  }`}
-                                >
-                                  {subItem.label}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href!}
-                    className={`whitespace-nowrap text-[13px] font-medium transition lg:text-[14px] 2xl:text-[17px] ${
-                      active
-                        ? "text-[#1A3A4A]"
-                        : "text-[#1A3A4A] hover:text-[#4DAEC8]"
-                    }`}
+            if (item.dropdown) {
+              const isOpen = openDropdown === item.label;
+              return (
+                <div
+                  key={item.label}
+                  className="relative flex h-full items-center"
+                  onMouseEnter={() => setOpenDropdown(item.label)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() =>
+                      setOpenDropdown((prev) =>
+                        prev === item.label ? null : item.label,
+                      )
+                    }
+                    className="group relative flex items-center gap-1 text-[15px] font-medium text-[#1A3A4A] transition-colors hover:text-[#4DAEC8]"
                   >
                     {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
+                    <Chevron open={isOpen} />
+                    <span
+                      className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-[#4DAEC8] transition-all duration-300 ${
+                        active || isOpen ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </button>
 
-            {/* "Book gratis befaring" matcher nå samme padding/høyde som
-                Tjenester- og Områder-knappene, i stedet for å være større. */}
-            <Link
-              href="/kontakt"
-              className="whitespace-nowrap rounded-full bg-[#4DAEC8] px-3 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#3A9AB5] lg:px-4 lg:py-3 lg:text-[14px] 2xl:px-5 2xl:text-[17px]"
-            >
-              Book gratis befaring
-            </Link>
-          </div>
+                  {isOpen && (
+                    <div className="absolute left-1/2 top-full z-50 w-[340px] -translate-x-1/2 pt-3">
+                      <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white p-3 shadow-2xl shadow-black/10 ring-1 ring-black/5">
+                        <ul className="space-y-0.5">
+                          {item.dropdown.map((subItem) => (
+                            <li key={subItem.href}>
+                              <DropdownLink
+                                item={subItem}
+                                active={pathname.startsWith(subItem.href)}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
 
+            return (
+              <Link
+                key={item.href}
+                href={item.href!}
+                className="group relative whitespace-nowrap text-[15px] font-medium text-[#1A3A4A] transition-colors hover:text-[#4DAEC8]"
+              >
+                {item.label}
+                <span
+                  className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-[#4DAEC8] transition-all duration-300 ${
+                    active ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Høyre: knapper */}
+        <div className="flex items-center justify-end gap-2">
+          <Link
+            href="/kontakt"
+            className="hidden whitespace-nowrap rounded-full border border-[#1A3A4A] px-5 py-2.5 text-sm font-medium text-[#1A3A4A] transition-colors hover:bg-[#1A3A4A] hover:text-white xl:inline-flex"
+          >
+            Kontakt oss
+          </Link>
+          <Link
+            href="/kontakt"
+            className="hidden whitespace-nowrap rounded-full bg-[#4DAEC8] px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#4DAEC8]/30 transition-colors hover:bg-[#3A9AB5] lg:inline-flex"
+          >
+            Book gratis befaring
+          </Link>
+
+          {/* Mobil: ring + meny */}
+          <a
+            href={PHONE_HREF}
+            aria-label={`Ring oss på ${PHONE_DISPLAY}`}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#4DAEC8] text-white shadow-md shadow-[#4DAEC8]/30 transition-colors hover:bg-[#3A9AB5] lg:hidden"
+          >
+            <Icon>{icons.phone}</Icon>
+          </a>
           <button
             type="button"
-            aria-label={mobileMenuOpen ? "Lukk meny" : "Åpne meny"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobilmeny"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="ml-auto inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#B8E4F0] text-[#1A3A4A] transition hover:bg-[#DCF2F9] sm:h-11 sm:w-11 md:h-12 md:w-12 lg:hidden"
+            className="inline-flex h-10 items-center rounded-full border border-[#1A3A4A] px-4 text-sm font-medium text-[#1A3A4A] transition-colors hover:bg-[#1A3A4A] hover:text-white lg:hidden"
           >
-            <svg
-              className="h-5 w-5 sm:h-5 sm:w-5 md:h-6 md:w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 7h16M4 12h16M4 17h16"
-                />
-              )}
-            </svg>
+            {mobileMenuOpen ? "Lukk" : "Meny"}
           </button>
         </div>
       </div>
 
+      {/* Mobilmeny — kort under pillen */}
       {mobileMenuOpen && (
-        <div className="max-h-[calc(100vh-64px)] overflow-y-auto border-t border-[#B8E4F0] bg-white sm:max-h-[calc(100vh-80px)] lg:hidden">
-          <div className="px-3 py-4 sm:px-6 sm:py-5">
-            <nav className="flex flex-col gap-2">
-              {navItems.map((item) => {
-                const hasDropdown = !!item.dropdown;
-                const active = isActive(item.href) || isDropdownActive(item);
+        <div
+          id="mobilmeny"
+          className="mx-auto mt-2 max-h-[calc(100dvh-100px)] max-w-[1400px] overflow-y-auto rounded-3xl bg-white p-3 shadow-2xl shadow-black/10 ring-1 ring-black/5 lg:hidden"
+        >
+          <nav aria-label="Mobilmeny" className="flex flex-col gap-1">
+            {navItems.map((item) => {
+              const active = isActive(item.href) || isDropdownActive(item);
+
+              if (item.dropdown) {
                 const isOpen = mobileDropdownOpen === item.label;
-
-                if (hasDropdown) {
-                  return (
-                    <div
-                      key={item.label}
-                      className="rounded-2xl border border-[#B8E4F0] bg-[#EDF8FC]"
-                    >
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileDropdownOpen((prev) =>
-                            prev === item.label ? null : item.label,
-                          )
-                        }
-                        className={`flex w-full items-center justify-between px-4 py-3.5 text-left text-[15px] font-medium text-[#1A3A4A] sm:py-4 sm:text-[16px] ${
-                          active ? "font-semibold" : ""
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <svg
-                          className={`h-4 w-4 shrink-0 transition ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
-                          viewBox="0 0 20 20"
-                          fill="none"
-                        >
-                          <path
-                            d="M5 7.5L10 12.5L15 7.5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      {isOpen && (
-                        <div className="px-2 pb-3">
-                          {item.dropdown?.map((subItem) => (
-                            <Link
-                              key={subItem.href}
-                              href={subItem.href}
-                              className={`block rounded-xl px-3 py-2.5 text-[14px] text-[#1A3A4A] transition hover:bg-white sm:py-3 sm:text-[15px] ${
-                                pathname.startsWith(subItem.href)
-                                  ? "bg-white"
-                                  : ""
-                              }`}
-                            >
-                              {subItem.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
                 return (
-                  <Link
-                    key={item.href}
-                    href={item.href!}
-                    className={`rounded-2xl px-4 py-3.5 text-[15px] font-medium transition sm:py-4 sm:text-[16px] ${
-                      active
-                        ? "bg-[#EDF8FC] text-[#1A3A4A]"
-                        : "text-[#1A3A4A] hover:bg-[#EDF8FC]"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+                  <div key={item.label}>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() =>
+                        setMobileDropdownOpen((prev) =>
+                          prev === item.label ? null : item.label,
+                        )
+                      }
+                      className={`flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left text-[15px] font-medium text-[#1A3A4A] transition-colors hover:bg-[#4DAEC8]/10 ${
+                        active ? "bg-[#4DAEC8]/10" : ""
+                      }`}
+                    >
+                      {item.label}
+                      <Chevron open={isOpen} />
+                    </button>
 
+                    {isOpen && (
+                      <ul className="space-y-0.5 px-1 pb-2">
+                        {item.dropdown.map((subItem) => (
+                          <li key={subItem.href}>
+                            <DropdownLink
+                              item={subItem}
+                              active={pathname.startsWith(subItem.href)}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href!}
+                  className={`rounded-2xl px-4 py-3.5 text-[15px] font-medium text-[#1A3A4A] transition-colors hover:bg-[#4DAEC8]/10 ${
+                    active ? "bg-[#4DAEC8]/10" : ""
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-gray-100 pt-3">
               <Link
                 href="/kontakt"
-                className="mt-2 rounded-full bg-[#4DAEC8] px-6 py-3.5 text-center text-[15px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:py-4 sm:text-[16px]"
+                className="rounded-full border border-[#1A3A4A] px-4 py-3 text-center text-sm font-medium text-[#1A3A4A]"
+              >
+                Kontakt oss
+              </Link>
+              <a
+                href={PHONE_HREF}
+                className="flex items-center justify-center gap-2 rounded-full border border-[#1A3A4A] px-4 py-3 text-sm font-medium text-[#1A3A4A]"
+              >
+                <Icon className="h-4 w-4">{icons.phone}</Icon>
+                {PHONE_DISPLAY}
+              </a>
+              <Link
+                href="/kontakt"
+                className="col-span-2 rounded-full bg-[#4DAEC8] px-6 py-3.5 text-center text-[15px] font-semibold text-white shadow-md shadow-[#4DAEC8]/30 transition-colors hover:bg-[#3A9AB5]"
               >
                 Book gratis befaring
               </Link>
-            </nav>
-          </div>
+            </div>
+          </nav>
         </div>
       )}
     </header>

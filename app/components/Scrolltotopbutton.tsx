@@ -29,9 +29,10 @@ export default function ScrollToTopButton() {
       aria-label="Scroll til toppen av siden"
       // pointer-events-none når usynlig, slik at knappen ikke blokkerer
       // klikk på innhold bak den mens den er "borte" (opacity 0).
-      // Posisjon, størrelse og avstand fra kanten skalerer i fire steg:
-      // mobil → sm (tablet liggende/små nettbrett) → md → lg (desktop).
-      className={`fixed bottom-4 right-3 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-[#4DAEC8] text-white shadow-[0_4px_16px_rgba(77,174,200,0.4)] transition-all duration-300 hover:bg-[#3A9AB5] sm:bottom-5 sm:right-5 sm:h-11 sm:w-11 md:bottom-6 md:right-6 md:h-12 md:w-12 lg:h-[52px] lg:w-[52px] ${
+      // Posisjon, størrelse og avstand fra kanten skalerer i tre steg:
+      // mobil → sm (små nettbrett) → md (nettbrett). Skjult på desktop (lg+),
+      // der sidebannerne står.
+      className={`fixed bottom-4 right-3 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-[#4DAEC8] text-white shadow-[0_4px_16px_rgba(77,174,200,0.4)] transition-all duration-300 hover:bg-[#3A9AB5] sm:bottom-5 sm:right-5 sm:h-11 sm:w-11 md:bottom-6 md:right-6 md:h-12 md:w-12 lg:hidden ${
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-3 opacity-0"

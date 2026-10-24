@@ -5,7 +5,6 @@ import Link from "next/link";
 import Faq, { type FaqItem } from "@/app/components/Faq";
 
 const url = "https://www.varigebad.no/tjenester/fastprispakken";
-const image = "/bad-fastpris.jpg";
 const title = "Nytt bad til fastpris i Oslo – 299 000 kr";
 const description =
   "Totalrenovering av bad opptil 6 m² til fastpris: 299 000 kr inkl. mva. Riving, rør, elektro, membran, flis og dokumentasjon i Boligmappa. Book gratis befaring.";
@@ -73,7 +72,7 @@ const jsonLd = {
       name: "Fastprispakken – totalrenovering av bad",
       description,
       url,
-      image: `https://www.varigebad.no${image}`,
+      image: `${url}/opengraph-image.jpg`,
       serviceType: "Baderomsrenovering",
       areaServed: ["Oslo", "Akershus"],
       provider: {
@@ -302,74 +301,74 @@ export default function FastprispakkenPage() {
       </nav>
 
       {/* Hero med priskort */}
-      <section className="px-4 py-10 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
-        <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-16">
-          <div>
-            <p className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-[#4DAEC8] sm:mb-3 sm:text-sm">
-              Fastprispakken · Oslo og omegn
-            </p>
-            <h1 className="mb-4 text-[28px] font-bold leading-tight text-[#1A3A4A] sm:mb-5 sm:text-4xl md:text-[44px] lg:text-5xl">
-              Nytt bad til fastpris i Oslo –{" "}
-              <span className="text-[#4DAEC8]">uten overraskelser</span>
-            </h1>
-            <p className="mb-6 text-[15px] leading-relaxed text-gray-700 sm:mb-8 sm:text-lg sm:leading-8">
-              Totalrenovering av bad opptil 6 m². Vi river, bygger, legger rør
-              og elektro, membran og flis – og leverer ferdig dokumentert.
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/kontakt"
-                className="inline-flex items-center justify-center rounded-full bg-[#4DAEC8] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:px-7 sm:py-4 sm:text-base"
-              >
-                Book gratis befaring
-              </Link>
-              <a
-                href="#inkludert"
-                className="inline-flex items-center justify-center rounded-full border-2 border-[#4DAEC8] px-6 py-3 text-[15px] font-semibold text-[#1A3A4A] transition hover:bg-[#DCF2F9] sm:px-7 sm:py-3.5 sm:text-base"
-              >
-                Se hva som er inkludert
-              </a>
-            </div>
-          </div>
-
-          <aside
-            aria-label="Pris"
-            className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] sm:rounded-[28px] sm:p-8"
-          >
-            <p className="text-[15px] text-[#2A5A70]">
-              Fast pris, bad opptil 6 m²
-            </p>
-            <p className="mt-1 text-[44px] font-bold leading-tight text-[#1A3A4A] sm:text-[56px]">
-              299 000
-              <span className="ml-1 text-[22px] font-medium text-[#2A5A70]">
-                kr
-              </span>
-            </p>
-            <p className="mb-6 text-sm text-[#2A5A70]">inkl. mva</p>
-            <ul className="grid gap-3 border-t border-[#B8E4F0] pt-6">
-              {highlights.map((h) => (
-                <li
-                  key={h}
-                  className="flex gap-3 text-[15px] text-gray-700 sm:text-base"
-                >
-                  <CheckIcon />
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
-
-        <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-[24px] shadow-lg sm:mt-14 sm:rounded-[28px] lg:rounded-[32px]">
+      <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[24px] bg-[#1A3A4A] shadow-[0_20px_60px_rgba(77,174,200,0.15)] sm:rounded-[28px] lg:rounded-[32px]">
           <Image
-            src={image}
-            alt="Moderne bad med walk-in dusj og baderomsmøbel i eik – totalrenovering fra 299 000 kr, kun i Oslo"
-            width={1733}
-            height={908}
+            src="/varigebad.png"
+            alt="Moderne bad med frittstående badekar, walk-in dusj og belyst speil"
+            fill
             priority
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="h-auto w-full"
+            className="object-cover brightness-125"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/15 lg:bg-gradient-to-r lg:from-black/65 lg:via-black/30 lg:to-transparent" />
+
+          <div className="relative grid gap-8 px-5 py-10 sm:gap-10 sm:p-10 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-16 lg:p-14">
+            <div>
+              <p className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-[#8FD6EA] sm:mb-3 sm:text-sm">
+                Fastprispakken · Oslo og omegn
+              </p>
+              <h1 className="mb-4 text-[28px] font-bold leading-tight text-white sm:mb-5 sm:text-4xl md:text-[44px] lg:text-5xl">
+                Nytt bad til fastpris i Oslo –{" "}
+                <span className="text-[#8FD6EA]">uten overraskelser</span>
+              </h1>
+              <p className="mb-6 text-[15px] leading-relaxed text-white/90 sm:mb-8 sm:text-lg sm:leading-8">
+                Totalrenovering av bad opptil 6 m². Vi river, bygger, legger rør
+                og elektro, membran og flis – og leverer ferdig dokumentert.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/kontakt"
+                  className="inline-flex items-center justify-center rounded-full bg-[#4DAEC8] px-6 py-3.5 text-[15px] font-semibold text-white transition hover:bg-[#3A9AB5] sm:px-7 sm:py-4 sm:text-base"
+                >
+                  Book gratis befaring
+                </Link>
+                <a
+                  href="#inkludert"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-white/70 px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-white/10 sm:px-7 sm:py-3.5 sm:text-base"
+                >
+                  Se hva som er inkludert
+                </a>
+              </div>
+            </div>
+
+            <aside
+              aria-label="Pris"
+              className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] sm:rounded-[28px] sm:p-8"
+            >
+              <p className="text-[15px] text-[#2A5A70]">
+                Fast pris, bad opptil 6 m²
+              </p>
+              <p className="mt-1 text-[44px] font-bold leading-tight text-[#1A3A4A] sm:text-[56px]">
+                299 000
+                <span className="ml-1 text-[22px] font-medium text-[#2A5A70]">
+                  kr
+                </span>
+              </p>
+              <p className="mb-6 text-sm text-[#2A5A70]">inkl. mva</p>
+              <ul className="grid gap-3 border-t border-[#B8E4F0] pt-6">
+                {highlights.map((h) => (
+                  <li
+                    key={h}
+                    className="flex gap-3 text-[15px] text-gray-700 sm:text-base"
+                  >
+                    <CheckIcon />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </div>
         </div>
       </section>
 

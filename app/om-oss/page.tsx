@@ -172,7 +172,7 @@ export default function OmOssPage() {
           <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-20">
             {/* Bilde — vises FØRST på mobil for visuell kontekst, side ved side på desktop */}
             <div
-              className="order-2 w-full overflow-hidden rounded-2xl lg:order-2"
+              className="relative order-2 w-full overflow-hidden rounded-2xl lg:order-2"
               style={{ aspectRatio: "4/3" }}
             >
               <Image

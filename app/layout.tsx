@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import ScrollToTopButton from "./components/Scrolltotopbutton";
+import SideBanner from "./components/SideBanner";
 
 const BASE_URL = "https://www.varigebad.no";
 const websiteJsonLd = {
@@ -100,7 +101,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="no">
-      <body className="bg-white text-neutral-900 antialiased">
+      <body className="overflow-x-clip bg-white text-neutral-900 antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
@@ -112,7 +113,7 @@ export default function RootLayout({
           }}
         />
         <Header />
-        {children}
+        <SideBanner>{children}</SideBanner>
         <ScrollToTopButton />
         <Footer />
       </body>
