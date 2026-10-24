@@ -11,7 +11,7 @@
 ## Teknisk stack
 
 | Teknologi | Versjon | Bruk |
-|---|---|---|
+| --- | --- | --- |
 | Next.js | 16.2.1 | Rammeverk (App Router) |
 | TypeScript | Latest | Typesikkerhet |
 | Tailwind CSS | Latest | Styling |
@@ -28,7 +28,7 @@ varigebad/
 │   │   └── [slug]/
 │   │       └── page.tsx              # Dynamisk artikkelside
 │   ├── components/
-│   │   ├── Header.tsx                # Navigasjon med dropdown (desktop + mobil)
+│   │   ├── Header.tsx                # Pille-header med dropdown og ikoner (desktop + mobil)
 │   │   ├── Footer.tsx                # Footer med kontaktinfo, sosiale medier
 │   │   ├── Hero.tsx                  # Video-hero med egne kontroller
 │   │   ├── ServicesOverview.tsx      # Tjenestekort for landingssiden
@@ -38,15 +38,21 @@ varigebad/
 │   │   ├── CtaSection.tsx            # Call-to-action seksjon
 │   │   ├── CtaBanner.tsx             # CTA-banner
 │   │   ├── Faq.tsx                   # Gjenbrukbar FAQ-komponent (accordion)
-│   │   └── ScrollToTopButton.tsx     # Global scroll-til-topp-knapp
+│   │   ├── SideBanner.tsx            # Faste videobannere til venstre/høyre (desktop)
+│   │   └── ScrollToTopButton.tsx     # Til toppen-knapp (kun mobil og nettbrett)
 │   ├── om-oss/
 │   │   └── page.tsx
 │   ├── referanser/
 │   │   ├── page.tsx                  # Server component med metadata
 │   │   └── ReferanserClient.tsx      # Lightbox + prosjektgalleri
 │   ├── tjenester/
-│   │   └── [slug]/
-│   │       └── page.tsx              # Dynamiske tjenestesider
+│   │   ├── page.tsx                  # Oversiktsside for alle tjenester
+│   │   ├── [slug]/
+│   │   │   └── page.tsx              # Dynamiske tjenestesider
+│   │   └── fastprispakken/
+│   │       ├── page.tsx              # Landingsside for Fastprispakken (Instagram-annonser)
+│   │       ├── opengraph-image.jpg   # Delingsbilde (1200×630)
+│   │       └── opengraph-image.alt.txt
 │   ├── omrader/
 │   │   └── [slug]/
 │   │       └── page.tsx              # Dynamiske områdesider
@@ -56,7 +62,7 @@ varigebad/
 │   │   └── page.tsx
 │   ├── vilkar/
 │   │   └── page.tsx
-│   ├── layout.tsx                    # Root layout (Header, Footer, ScrollToTopButton)
+│   ├── layout.tsx                    # Root layout (Header, SideBanner, Footer, ScrollToTopButton)
 │   ├── page.tsx                      # Forside (samler alle seksjoner)
 │   ├── sitemap.ts                    # Auto-generert sitemap.xml
 │   └── robots.ts                     # Auto-generert robots.txt
@@ -67,6 +73,10 @@ varigebad/
 │       └── kontaktSkjema.ts          # Valideringslogikk for kontaktskjema
 └── public/
     ├── varigebad.jpg                 # Logo (brukes også i structured data)
+    ├── varigebad-logo.png            # Beskåret logo til headeren
+    ├── varigebad.png                 # Bakgrunnsbilde (forside-hero og Fastprispakken-hero)
+    ├── varigebad-sidebanner-320x1200-v2.mp4  # Video til sidebannerne
+    ├── bad-fastpris.jpg              # Kampanjebilde (brukes ikke lenger av siden)
     ├── varigebad.mp4                 # Presentasjonsvideo (konvertert fra .MOV)
     ├── varigebad.MOV                 # Original video (Safari-fallback)
     ├── dusjkabin.jpg
@@ -95,10 +105,12 @@ varigebad/
 | Rute | Beskrivelse |
 |---|---|
 | `/` | Forside |
+| `/tjenester` | Oversikt over alle tjenester |
 | `/tjenester/totaloppussing-av-bad` | Totaloppussing av bad og våtrom |
 | `/tjenester/flislegging` | Flislegging |
 | `/tjenester/rorleggerarbeid` | Rørleggerarbeid |
 | `/tjenester/innvendig-oppussing` | Innvendig oppussing |
+| `/tjenester/fastprispakken` | Fastprispakken – nytt bad til fastpris (299 000 kr), landingsside for annonser |
 | `/referanser` | Prosjektreferanser med lightbox |
 | `/blogg` | Blogg-oversikt |
 | `/blogg/montering-av-dusjkabinett` | Artikkel: montering av dusjkabinett |
@@ -165,6 +177,20 @@ GitHub (main) → Vercel (bygg + hosting) → one.com (DNS: varigebad.no)
 ### Primære søkeord
 
 `baderomsrenovering Oslo` · `renovere våtrom Oslo` · `baderomsrenovering Akershus` · `rørlegger Oslo` · `membran våtrom` · `flislegging Oslo`
+
+---
+
+## Sidebannere
+
+`app/components/SideBanner.tsx` legger en fast videobanner i en egen kolonne til venstre og høyre for innholdet på alle sider.
+
+- Vises fra 1024 px bredde. På mobil og nettbrett vises de ikke, og videoen lastes ikke ned.
+- Bredden skaleres etter skjermhøyden (maks 320×1200), slik at hele banneret alltid er synlig.
+- Lenker til `/tjenester/fastprispakken`.
+- Skjules på `/tjenester/fastprispakken` og `/kontakt` (se `HIDDEN_ON`).
+- CTA-seksjonen (`CtaSection.tsx`) går i full bredde over bannerne på desktop.
+
+**Bytte video:** legg ny fil i `public/` og endre `BANNER_SRC` i `SideBanner.tsx`. Videoen må ha formatet 320×1200 (gjerne 640×2400 for skarphet), ellers må `aspect-[320/1200]` justeres.
 
 ---
 
