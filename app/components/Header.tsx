@@ -27,6 +27,7 @@ const navItems: NavItem[] = [
       { label: "Flislegging", href: "/tjenester/flislegging" },
       { label: "Rørleggerarbeid", href: "/tjenester/rorleggerarbeid" },
       { label: "Innvendig oppussing", href: "/tjenester/innvendig-oppussing" },
+      { label: "Fastprispakken", href: "/tjenester/fastprispakken" },
     ],
   },
   { label: "Referanser", href: "/referanser" },

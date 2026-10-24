@@ -9,6 +9,7 @@ const serviceSlugs = [
   "flislegging",
   "rorleggerarbeid",
   "innvendig-oppussing",
+  "fastprispakken",
 ];
 
 const omradeSlugs = ["oslo", "akershus", "oslo-og-omegn"];
