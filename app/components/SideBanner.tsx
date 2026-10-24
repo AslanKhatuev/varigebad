@@ -8,7 +8,7 @@ import { useEffect, useState, type ReactNode } from "react";
 // innholdet. Bredden styres av CSS og skaleres etter skjermhøyden, slik at
 // hele 320×1200-banneret alltid er synlig (ingen layout-hopp). Videoen lastes
 // kun når kolonnene faktisk vises (lg og opp).
-const BANNER_SRC = "/varigebad-sidebanner-320x1200.mp4";
+const BANNER_SRC = "/varigebad-sidebanner-320x1200-v2.mp4";
 const BANNER_QUERY = "(min-width: 1024px)";
 
 const HIDDEN_ON = ["/tjenester/fastprispakken", "/kontakt"];

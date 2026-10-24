@@ -145,6 +145,7 @@ function DropdownLink({
 const navItems: NavItem[] = [
   {
     label: "Tjenester",
+    href: "/tjenester",
     dropdown: [
       {
         label: "Totaloppussing av bad",
@@ -318,6 +319,15 @@ export default function Header() {
                             </li>
                           ))}
                         </ul>
+                        {item.href && (
+                          <Link
+                            href={item.href}
+                            className="mt-2 flex items-center justify-between rounded-xl border-t border-gray-100 px-3 pb-1 pt-3 text-[14px] font-semibold text-[#1A3A4A] transition-colors hover:text-[#4DAEC8]"
+                          >
+                            Se alle {item.label.toLowerCase()}
+                            <span aria-hidden="true">→</span>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   )}
@@ -417,6 +427,17 @@ export default function Header() {
                             />
                           </li>
                         ))}
+                        {item.href && (
+                          <li>
+                            <Link
+                              href={item.href}
+                              className="flex items-center justify-between rounded-xl px-2 py-2.5 text-[14px] font-semibold text-[#1A3A4A] transition-colors hover:bg-[#4DAEC8]/10"
+                            >
+                              Se alle {item.label.toLowerCase()}
+                              <span aria-hidden="true">→</span>
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     )}
                   </div>

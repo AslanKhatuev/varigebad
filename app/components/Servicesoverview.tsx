@@ -4,7 +4,7 @@ import Script from "next/script";
 
 // Kort sammendrag av hver tjeneste — kun det viktigste for landingssiden.
 // Full tekst og punktliste finnes på app/tjenester/[slug]/page.tsx
-type ServiceSummary = {
+export type ServiceSummary = {
   slug: string;
   title: string;
   shortDescription: string;
@@ -15,7 +15,7 @@ type ServiceSummary = {
 
 // Rekkefølge reflekterer prioritering: full baderomsrenovering/våtrom først,
 // flislegging sist siden det er en del av helheten, ikke hovedfokuset.
-const servicesSummary: ServiceSummary[] = [
+export const servicesSummary: ServiceSummary[] = [
   {
     slug: "totaloppussing-av-bad",
     title: "Totaloppussing av bad og våtrom",

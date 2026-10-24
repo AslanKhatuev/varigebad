@@ -309,11 +309,11 @@ export default function FastprispakkenPage() {
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover brightness-125"
+            className="object-cover brightness-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/15 lg:bg-gradient-to-r lg:from-black/65 lg:via-black/30 lg:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/30 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/45 lg:to-black/10" />
 
-          <div className="relative grid gap-8 px-5 py-10 sm:gap-10 sm:p-10 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-16 lg:p-14">
+          <div className="relative grid gap-8 px-5 py-10 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)] sm:gap-10 sm:p-10 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-16 lg:p-14">
             <div>
               <p className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-[#8FD6EA] sm:mb-3 sm:text-sm">
                 Fastprispakken · Oslo og omegn
@@ -344,7 +344,7 @@ export default function FastprispakkenPage() {
 
             <aside
               aria-label="Pris"
-              className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] sm:rounded-[28px] sm:p-8"
+              className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] [text-shadow:none] sm:rounded-[28px] sm:p-8"
             >
               <p className="text-[15px] text-[#2A5A70]">
                 Fast pris, bad opptil 6 m²
@@ -479,7 +479,7 @@ export default function FastprispakkenPage() {
             </p>
           </div>
 
-          <div className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] sm:rounded-[28px] sm:p-8">
+          <div className="rounded-[24px] border border-[#B8E4F0] bg-white p-6 shadow-[0_8px_24px_rgba(77,174,200,0.15)] [text-shadow:none] sm:rounded-[28px] sm:p-8">
             <h3 className="text-lg font-bold text-[#1A3A4A] sm:text-xl">
               Slik ser budsjettet ut
             </h3>
